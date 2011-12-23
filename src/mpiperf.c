@@ -14,6 +14,7 @@
 #include <mpi.h>
 
 #include "mpiperf.h"
+#include "version.h"
 #include "report.h"
 #include "timeslot.h"
 #include "bench.h"
@@ -60,6 +61,7 @@ static int mpiperf_logmaster_only = 0;
 static bench_t *mpiperf_bench = NULL;
 
 static void mpiperf_checktimer();
+static void print_version();
 static void print_usage(int argc, char **argv);
 static int parse_options(int argc, char **argv);
 
@@ -169,6 +171,13 @@ static void mpiperf_checktimer()
     hpctimer_finalize();
 }
 
+/* print_version: Prints the version number. */
+static void print_version()
+{
+    fprintf(stdout, "%s %d.%d.%d\n", mpiperf_progname, MPIPERF_VERSION_MAJOR, 
+                                     MPIPERF_VERSION_MINOR, MPIPERF_VERSION_PATCH);
+}
+
 /* print_usage: Prints usage. */
 static void print_usage(int argc, char **argv)
 {
@@ -203,6 +212,7 @@ static void print_usage(int argc, char **argv)
     fprintf(stderr, "  -m               Log by master process only (default: off)\n");
     fprintf(stderr, "  -q               Display information about all benchmarks\n");
     fprintf(stderr, "  -h               Display this information\n");
+    fprintf(stderr, "  -v               Display the version number\n");
     fprintf(stderr, "\nReport bugs to <mkurnosov@gmail.com>.\n");
 }
 
@@ -211,7 +221,7 @@ static int parse_options(int argc, char **argv)
 {
     int opt, checktimer = 0;
 
-    while ( (opt = getopt(argc, argv, "apchqTgx:X:r:R:s:S:e:E:l:t:w:z:m")) != -1) {
+    while ( (opt = getopt(argc, argv, "apchqTgx:X:r:R:s:S:e:E:l:t:w:z:mv")) != -1) {
         switch (opt) {
         case 'a':
             mpiperf_statanalysis = 0;
@@ -302,6 +312,11 @@ static int parse_options(int argc, char **argv)
         case 'q':
             if (IS_MASTER_RANK) {
                 print_benchmarks_info();
+            }
+            exit_success();
+        case 'v':
+            if (IS_MASTER_RANK) {
+                print_version();
             }
             exit_success();
         case 'h':
