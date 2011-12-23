@@ -1,0 +1,45 @@
+This directory contains results of execution WaitPatternNull benchmark
+on different computer systems.
+
+Cluster A
+---------
+Nodes: Intel SR2520SAF (2 x Intel Xeon E5420, Harpertown)
+Interconnect: Gigabit Ethernet
+Software: gcc 4.1.2, mpich2 1.2.1 (nemesis), CentOS 5.2 x86_64 (2.6.18-92.el5)
+
+Files:
+  * mpiperf-xeonE5420-eth-mpi_wtime.dat -- test passed (all times are 0).
+  * mpiperf-xeonE5420-eth-tsc.dat -- test passed (all times are 0).
+
+Cluster B
+---------
+Nodes: HP ProLiant BL2x220c (2 x Intel Xeon Nehalem)
+Interconnect: InfiniBand 4x QDR
+Software: gcc 4.3.2; Open MPI 1.4.3;
+          SUSE Linux Enterprise Server 11 (x86_64, kernel 2.6.27.29-0.1-default)
+
+Files:
+  * mpiperf-xeonE5540-ib-tsc.dat -- test passed (all times are 0).
+
+  * mpiperf-xeonE5540-ib-mpi_wtime.dat -- incorrect results (INVALID TIMER).
+    MPI_Wtime function on this system is based on gettimeofday
+    and has random overhead (such results we obtained and with SKaMPI).
+    
+    Linux kernel on this system can't correctly work with TSC of Nehalem processors. 
+    Different timers are used (tsc or hpet) on nodes. For example node cn180 and cn40:
+
+    $ ssh cn60 "cat /sys/devices/system/clocksource/clocksource0/current_clocksource"
+    tsc
+    
+    $ ssh cn180 "cat /sys/devices/system/clocksource/clocksource0/current_clocksource"
+    hpet
+    
+    $ ssh cn180 "dmesg | grep -i hpet"
+    ACPI: HPET id: 0x8086a201 base: 0xfed00000
+    hpet clockevent registered
+    hpet0: at MMIO 0xfed00000, IRQs 2, 8, 0, 0
+    hpet0: 4 64-bit timers, 14318180 Hz
+    hpet_resources: 0xfed00000 is busy
+    rtc0: alarms up to one year, y3k, hpet irqs
+    CE: hpet increasing min_delta_ns to 15000 nsec   /* !!! */
+

@@ -1,0 +1,12 @@
+mpiperf
+-------
+
+mpiperf is a tool for measurement of the performance of MPI communications 
+routines. 
+
+For problem reports and suggestions on the implementation, please contact:
+
+    Mikhail Kurnosov
+    E-mail: mkurnosov@gmail.com
+    http://cpct.sibsutis.ru/~mkurnosov
+         

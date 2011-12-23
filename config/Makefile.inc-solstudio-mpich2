@@ -1,0 +1,21 @@
+#
+# mpiperf top-level makefile.
+#
+# Tested on:
+# Platform: GNU/Linux Fedora 14 x86_64
+#           Linux mkws 2.6.35.12-90.fc14.x86_64 #1 SMP Fri Apr 22 16:01:29 UTC 2011 x86_64 x86_64 x86_64 GNU/Linux
+# Compiler: Solaris Studio 12.2
+# MPI library: mpich2-1.3 (compiled with gcc 4.5.1)
+#
+
+topdir := $(PWD)
+srcdir := $(topdir)/src
+
+INCLUDES := -I $(srcdir)
+CFLAGS := -O2 -xc99 -Xc -g $(INCLUDES)
+LDFLAGS := -lm -L /usr/lib/gcc/x86_64-redhat-linux/4.5.1 -lgcc_s
+
+CC := suncc
+LD := suncc
+MPICC := mpicc -cc=$(CC)
+

@@ -1,0 +1,109 @@
+# mpiperf 0.0.1 report
+# Command line: ./mpiperf -t tsc WaitPatternNull
+# Benchmark: WaitPatternNull
+# Variable parameter: Commsize
+# Variable parameter range: min=-1 max=-1
+# Test exit condition: 30 successful runs
+# Minimal number of runs: 10
+# Maximal number of runs: 100
+# Cache defeat flag: 0
+# Timer: tsc
+# Time scale: microseconds
+# Synchronization method: synctime
+# Master process: 0
+# Process mapping: 
+#   0:cn130
+#   1:cn130
+#   2:cn130
+#   3:cn130
+#   4:cn130
+#   5:cn130
+#   6:cn130
+#   7:cn130
+#   8:cn131
+#   9:cn131
+#   10:cn131
+#   11:cn131
+#   12:cn131
+#   13:cn131
+#   14:cn131
+#   15:cn131
+#   16:cn132
+#   17:cn132
+#   18:cn132
+#   19:cn132
+#   20:cn132
+#   21:cn132
+#   22:cn132
+#   23:cn132
+#   24:cn133
+#   25:cn133
+#   26:cn133
+#   27:cn133
+#   28:cn133
+#   29:cn133
+#   30:cn133
+#   31:cn133
+#   32:cn134
+#   33:cn134
+#   34:cn134
+#   35:cn134
+#   36:cn134
+#   37:cn134
+#   38:cn134
+#   39:cn134
+#   40:cn135
+#   41:cn135
+#   42:cn135
+#   43:cn135
+#   44:cn135
+#   45:cn135
+#   46:cn135
+#   47:cn135
+#   48:cn136
+#   49:cn136
+#   50:cn136
+#   51:cn136
+#   52:cn136
+#   53:cn136
+#   54:cn136
+#   55:cn136
+#   56:cn137
+#   57:cn137
+#   58:cn137
+#   59:cn137
+#   60:cn137
+#   61:cn137
+#   62:cn137
+#   63:cn137
+# Characteristics of measurements:
+#   Commsize - variable parameter
+#   TRuns - total number of measurements (valid and invalid measurements)
+#   CRuns - number of correct measurements (only valid)
+#   FRuns - number of correct measurements after statistical analysis (removing of outliers)
+#   Mean - arithmetic mean of execution time (based on FRuns)
+#   RSE - relative standard error (StdErr / Mean)
+#   StdErr - standard error of the mean: StdDev / sqrt(FRuns)
+#   Min - minimal value
+#   Max - miximal value
+#   CL - confidence level: 90%, 95% or 99%
+#   Err - error of measurements: t_student * StdErr
+#   CI LB - lower bound of confidence interval: Mean - Err
+#   CI UB - upper bound of confidence interval: Mean + Err
+#   RelErr - relative error of measurements: Err / Mean
+#
+# ------------------------------------------------------------------
+# WaitPatternNull time (maximum time off all processes)
+# Variable parameter: Commsize
+# Confidence level (CL): 95%
+# ------------------------------------------------------------------
+# [Parameter] [TRuns] [CRuns] [FRuns] [Mean]         [RSE]      [StdErr]       [Min]          [Max]         [Err]          [CI LB]        [CI UB]        [RelErr]
+#
+1             32      32      16      0.06           0.03       0.00           0.05           0.06          0.00           0.05           0.06           0.06      
+2             40      36      18      0.06           0.00       0.00           0.06           0.06          0.00           0.06           0.06           0.00      
+4             32      32      16      0.06           0.00       0.00           0.06           0.06          0.00           0.06           0.06           0.00      
+8             32      31      17      0.06           0.00       0.00           0.06           0.06          0.00           0.06           0.06           0.00      
+16            32      31      17      0.06           0.00       0.00           0.06           0.06          0.00           0.06           0.06           0.00      
+32            32      32      16      0.07           0.01       0.00           0.06           0.07          0.00           0.06           0.07           0.02      
+64            32      31      17      0.07           0.01       0.00           0.07           0.08          0.00           0.07           0.07           0.02      
+# Elapsed time: 0.406726 sec.

@@ -1,0 +1,108 @@
+# mpiperf 0.0.1 report
+# Command line: ./mpiperf -t tsc WaitPatternNull
+# Benchmark: WaitPatternNull
+# Variable parameter: Commsize
+# Variable parameter range: min=-1 max=-1
+# Test exit condition: 30 successful runs
+# Minimal number of runs: 10
+# Maximal number of runs: 100
+# Cache defeat flag: 0
+# Timer: tsc
+# Time scale: microseconds
+# Master process: 0
+# Process mapping: 
+#   0:node8.cluster.local
+#   1:node8.cluster.local
+#   2:node8.cluster.local
+#   3:node8.cluster.local
+#   4:node8.cluster.local
+#   5:node8.cluster.local
+#   6:node8.cluster.local
+#   7:node8.cluster.local
+#   8:node7.cluster.local
+#   9:node7.cluster.local
+#   10:node7.cluster.local
+#   11:node7.cluster.local
+#   12:node7.cluster.local
+#   13:node7.cluster.local
+#   14:node7.cluster.local
+#   15:node7.cluster.local
+#   16:node6.cluster.local
+#   17:node6.cluster.local
+#   18:node6.cluster.local
+#   19:node6.cluster.local
+#   20:node6.cluster.local
+#   21:node6.cluster.local
+#   22:node6.cluster.local
+#   23:node6.cluster.local
+#   24:node5.cluster.local
+#   25:node5.cluster.local
+#   26:node5.cluster.local
+#   27:node5.cluster.local
+#   28:node5.cluster.local
+#   29:node5.cluster.local
+#   30:node5.cluster.local
+#   31:node5.cluster.local
+#   32:node4.cluster.local
+#   33:node4.cluster.local
+#   34:node4.cluster.local
+#   35:node4.cluster.local
+#   36:node4.cluster.local
+#   37:node4.cluster.local
+#   38:node4.cluster.local
+#   39:node4.cluster.local
+#   40:node3.cluster.local
+#   41:node3.cluster.local
+#   42:node3.cluster.local
+#   43:node3.cluster.local
+#   44:node3.cluster.local
+#   45:node3.cluster.local
+#   46:node3.cluster.local
+#   47:node3.cluster.local
+#   48:node2.cluster.local
+#   49:node2.cluster.local
+#   50:node2.cluster.local
+#   51:node2.cluster.local
+#   52:node2.cluster.local
+#   53:node2.cluster.local
+#   54:node2.cluster.local
+#   55:node2.cluster.local
+#   56:node1.cluster.local
+#   57:node1.cluster.local
+#   58:node1.cluster.local
+#   59:node1.cluster.local
+#   60:node1.cluster.local
+#   61:node1.cluster.local
+#   62:node1.cluster.local
+#   63:node1.cluster.local
+# Characteristics of measurements:
+#   Commsize - variable parameter
+#   TRuns - total number of measurements (valid and invalid measurements)
+#   CRuns - number of correct measurements (only valid)
+#   FRuns - number of correct measurements after statistical analysis (removing of outliers)
+#   Mean - arithmetic mean of execution time (based on FRuns)
+#   RSE - relative standard error (StdErr / Mean)
+#   StdErr - standard error of the mean: StdDev / sqrt(FRuns)
+#   Min - minimal value
+#   Max - miximal value
+#   CL - confidence level: 90%, 95% or 99%
+#   Err - error of measurements: t_student * StdErr
+#   CI LB - lower bound of confidence interval: Mean - Err
+#   CI UB - upper bound of confidence interval: Mean + Err
+#   RelErr - relative error of measurements: Err / Mean
+#
+# ------------------------------------------------------------------
+# WaitPatternNull time (maximum time off all processes)
+# Variable parameter: Commsize
+# Confidence level (CL): 95%
+# ------------------------------------------------------------------
+# [Parameter] [TRuns] [CRuns] [FRuns] [Mean]         [RSE]      [StdErr]       [Min]          [Max]         [Err]          [CI LB]        [CI UB]        [RelErr]
+#
+1             32      32      16      0.11           0.00       0.00           0.10           0.11          0.00           0.11           0.11           0.00      
+2             32      30      16      0.11           0.01       0.00           0.11           0.12          0.00           0.11           0.11           0.02      
+4             32      32      16      0.12           0.00       0.00           0.12           0.12          0.00           0.12           0.12           0.01      
+8             40      35      19      0.12           0.00       0.00           0.12           0.12          0.00           0.12           0.12           0.01      
+16            32      32      16      0.13           0.00       0.00           0.13           0.13          0.00           0.13           0.13           0.00      
+32            32      32      16      0.13           0.00       0.00           0.13           0.13          0.00           0.13           0.13           0.00      
+64            40      32      16      0.13           0.00       0.00           0.13           0.13          0.00           0.13           0.13           0.00      
+# Elapsed time: 4.175245 sec.

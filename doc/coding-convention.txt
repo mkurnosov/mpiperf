@@ -1,0 +1,226 @@
+Coding Convention
+=================
+
+1. C source files have the following structure
+
+* Beginning comments
+* Include guards (for header files only)
+* Include directives
+* Preprocessor macro definitions
+* Enums and constants definitions
+* Structure and typedef definitions
+* Function declarations
+* Function implementations
+* Include guards (for header files only)
+
+2. Preprocessor include directives have the following structure
+
+* System header files
+* C library header files
+* Project header files
+
+3. Indentation
+
+Four spaces should be used as the unit of indentation. Tabs are disabled.
+Avoid lines longer than 80 characters. When an expression will not fit on
+a single line, break it.
+
+4. Control Structures and Indentation Example
+
+enum {
+    ENTRY_TYPE_STRING = 1,
+    ENTRY_TYPE_NUMBER = 2
+};
+
+typedef struct entry entry_t;
+struct entry {
+    int count;
+    char *name;
+};
+
+entrytab[] = {
+    {1, "nic"},
+    {12, "ram"},
+    {4, "cpu"}
+};
+
+/* 
+ * Breaking long lines
+ */
+int MPI_Allgather(void *sendbuf, int sendcount, MPI_Datatype sendtype,
+                  void *recvbuf, int recvcount, MPI_Datatype recvtype,
+                  MPI_Comm comm)
+{
+    allgather_ptr = select_allgather(comm, recvcount, recvtype);
+
+    if (allgather_ptr != NULL) {
+        return (allgather_ptr)(sendbuf, sendcount, sendtype, recvbuf,
+                               recvcount, recvtype, comm, comm);
+    }
+}
+
+void main(int argc, char *argv[])
+{
+    int i, j, n = 100;
+    char ch;
+
+    /*
+     * Control structures 
+     */
+    for (i = 0; i < n; i++) {
+        /* Process */
+        process(i);
+    }
+
+    while ((ch = readsym()) != EOF) {
+        switch (ch) {
+            case 'a':
+            case 'b':
+            case 'c':
+                isabc = 1;
+                break;
+            case '0':
+                iszero = 1;
+                break;
+            default:
+                isunknown = 1;
+        }
+        process_sym(ch);
+    }
+    
+    if (isszeo) {
+        doa();
+    } else if (isnumeric) {
+        dob();
+    } else if (ishex || islogical) {
+        doc();
+    } else {
+        doelse();
+    }
+
+    do {
+        process();
+    } while (diff < eps);
+    
+    /* 
+     * Spaces around operators 
+     */    
+    x += y - z / (a - b) * (-c) % -b;
+    if (x >= a || z == 0) {
+        isfound = 1;
+    }
+
+    return EXIT_SUCCESS;
+}
+
+4. C Source File Example
+
+/*
+ * bench.c: Measurement functions for MPI routines.
+ *
+ * Copyright (C) 2010 Foo Bar
+ */
+
+#include <unistd.h>
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <strings.h>
+
+#include <mpi.h>
+
+#include "bench.h"
+#include "util.h"
+
+#define NELEMS(v) (sizeof(v) / sizeof((v)[0]))
+#define TEST_SLOTLEN_SCALE 1.7
+
+enum {
+    TEST_REALLOC_GROWSTEP = 2,
+    TEST_STAGE_NRUNS_INIT = 4
+};
+
+static char *functab[] = {"Fun1", "Fun2", "Fun3", NULL};
+
+static MPI_Comm getcommworld();
+
+/* bench_initialize: Initializes benchmark before all tests. */
+int bench_initialize(bench_t *bench)
+{
+    if (bench->init) {
+        if (bench->init(bench) == MPIPERF_FAILURE) {
+            exit_error("Error initializing benchmark");
+        }
+    }
+    return MPIPERF_SUCCESS;
+}
+
+/* bench_finalize: */
+int bench_finalize(bench_t *bench)
+{
+    if (bench) {
+        if (bench->free) {
+            bench->free(bench);
+        }
+    }
+    return MPIPERF_SUCCESS;
+}
+
+/* lookup_bench: Returns pointer to benchmark by name or NULL on error. */
+bench_t *lookup_bench(const char *name)
+{
+    int i;
+
+    for (i = 0; i < NELEMS(benchtab); i++) {
+        if (strcasecmp(benchtab[i].name, name) == 0) {
+            return &benchtab[i];
+        }
+    }
+    return NULL;
+}
+
+/* getcommworld: */
+static MPI_Comm getcommworld(bench_t *bench)
+{
+    return MPI_COMM_WORLD;
+}
+
+5. Header File Example
+/*
+ * bench.h: Measurement functions for MPI routines.
+ *
+ * Copyright (C) 2010 Mikhail Kurnosov
+ */
+
+#ifndef BENCH_H
+#define BENCH_H
+
+#include <mpi.h>
+
+#include "stats.h"
+
+#define IS_MEASURE_INVALID(time) ((MEASURE_TIME_INVVAL - (time)) < 1.0)
+#define MEASURE_TIME_INVVAL 1E10
+
+enum MPIFunctionType {
+    MPIFUNC_TYPE_COLL  = 1,
+    MPIFUNC_TYPE_PT2PT = 2
+};
+
+typedef struct bench bench_t;
+typedef int (*bench_init_ptr_t)(bench_t *bench);
+
+/*
+ * MPI function benchmark
+ */
+struct bench {
+    char *name;                       /* Benchmark name */
+    int mpifunctype;                  /* Function type: collective, pt2pt */
+    bench_init_ptr_t init;            /* Called before all tests */
+};
+
+int bench_initialize(bench_t *bench);
+int bench_finalize(bench_t *bench);
+
+#endif /* BENCH_H */
+
