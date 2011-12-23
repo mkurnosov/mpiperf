@@ -8,10 +8,7 @@
 #define MPIPERF_H
 
 #include "bench.h"
-
-#define MPIPERF_VERSION_MAJOR 0
-#define MPIPERF_VERSION_MINOR 0
-#define MPIPERF_VERSION_PATCH 1
+#include "version.h"
 
 #define IS_MASTER_RANK (mpiperf_rank == mpiperf_master_rank)
 

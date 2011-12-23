@@ -1,0 +1,21 @@
+# Binary files
+mpiperf
+*.o
+*.so
+*.a
+
+*.swp
+*~
+*.zip
+*.tar.gz
+*.log
+*.jpg
+*.png
+*.gif
+*.ps
+*.eps
+thumbs.db
+
+# Ignoring all files in local directory
+local/
+
