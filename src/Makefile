@@ -41,7 +41,7 @@ $(mpiperf): $(mpiperf_objs)
 benchmarks/%.o: /benchmarks/%.c
 	$(MPICC) $(CFLAGS) -c $< -o $@
 
-mpiperf.o: mpiperf.c mpiperf.h
+mpiperf.o: mpiperf.c mpiperf.h version.h
 seq.o: seq.c seq.h
 util.o: util.c util.h
 bench.o: bench.c bench.h
