@@ -1,0 +1,73 @@
+Building MPIPerf
+----------------
+
+Unpack the tar file and go to the top level directory
+
+    tar zxvf mpiperf.tar.gz
+    cd mpiperf
+
+Before building specify your compiler and path to MPI library in Makefile.inc. 
+To compile MPIPerf, type
+
+    make 
+
+If no error occurs, executable file src/mpiperf will be created.
+
+Checking timers
+---------------
+
+Before any measurements it is required to check timers in MPIPerf on target 
+computer system. To print list of supported timers run mpiperf with option -T
+
+    mpiexec -n 1 ./mpiperf -T
+
+To check timer 'tsc' run mpiperf with option -g (default timer is MPI_Wtime)
+
+    mpiexec -n 1 ./mpiperf -g -t tsc
+
+In the case of correct work of timer the message "PASSED" is printed.
+
+Checking synchronization
+------------------------
+
+To checking correctness of synchronization of processes run WaitPatternNull 
+test on few nodes
+
+    mpiexec -n 64 ./mpiperf WaitPatternNull
+
+The execution time of test (column [Mean]) must be 0.XX microseconds. 
+Value greater then 1.00 microseconds indicates invalid synchronization of 
+processes. In such case you can try to check other timers:
+
+    mpiexec -n 64 ./mpiperf -t tsc WaitPatternNull
+
+Running tests
+-------------
+
+To print list of support tests run mpiperf with option -q
+
+./mpiperf -q
+
+To run test 'Bcast'
+
+mpiexec -n 16 ./mpiperf Bcast
+
+Each test has variable parameter - number of processes or message size. 
+The -x and -X options specify minimal and maximal values of this parameter.
+The options -e and -E specify termination condition of test.
+
+In following example message size is changed from 1024 bytes to 64 KiB in 
+a geometric progression with common ration 2:
+
+    mpiexec -n 32 ./mpiperf -t tsc -x1024 -X64KiB -S2 Bcast
+
+In following example number of processes is changed from 1 to 64 in an 
+arithmetic progression with common difference 4:
+
+    mpiexec -n 64 ./mpiperf -t tsc -x1 -X64 -s4 Barrier
+
+Plotting graphs
+---------------
+
+Gnuplot scripts for plotting are located in directory examples/graphs. 
+
