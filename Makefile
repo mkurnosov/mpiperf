@@ -16,14 +16,14 @@ TEST_DIR := test
 all: mpiperf test
 
 mpiperf:
-	@$(MAKE) -C $(SRC_DIR)
+	$(MAKE) -C $(SRC_DIR)
 
 test: mpiperf
-	@cp -f $(SRC_DIR)/mpiperf $(TEST_DIR)
+	cp -f $(SRC_DIR)/mpiperf $(TEST_DIR)
 
 clean:
-	@$(MAKE) -C $(SRC_DIR) clean
-	@rm -f $(TEST_DIR)/mpiperf
+	$(MAKE) -C $(SRC_DIR) clean
+	rm -f $(TEST_DIR)/mpiperf
 
 dist: clean $(distdir).tar.gz
 
@@ -39,7 +39,7 @@ $(distdir):
 	cp -R maint $@
 	cp -R src $@
 	cp -R test $@
-	cp -R AUTHORS  COPYING  Makefile Makefile.inc README  README.ru VERSION $@
+	cp -R AUTHORS COPYING Makefile Makefile.inc README INSTALL INSTALL.ru VERSION $@
 
 
     

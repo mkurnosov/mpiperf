@@ -6,7 +6,7 @@
 #mpiexec -np 4 ./mpiperf -l log -x4 -X512 -S2 -e3 -r10 -R100 allgather $@
 
 #mpiexec -np 4 ./mpiperf -l log -x1 -X524288 -S2 -e3 -r8 -R32 allgather
-mpiexec -np 3 ./mpiperf -x1024 -X1024 -r10 -R100 -e3 -s1 Bcast
+mpiexec -np 4 ./mpiperf -x1024 -X65535 -r10 -R100 -e3 -s1 Bcast
 
 #mpiexec -np 2 ./mpiperf -w usec -t tsc -x1000 -X2000 -S2 -r10 -R100 -e3 Bcast
 #mpiexec -np 2 ./mpiperf -x1000 -X2000 -S2 -r10 -R100 -e3 Bcast
