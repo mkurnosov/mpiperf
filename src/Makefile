@@ -7,6 +7,7 @@ include ../Makefile.inc
 mpiperf := mpiperf
 mpiperf_objs := mpiperf.o seq.o util.o mempool.o bench.o stats.o \
                 report.o timeslot.o mpigclock.o hpctimer.o logger.o \
+                bench_coll.o bench_nbc.o bench_pt2pt.o \
                 benchmarks/barrier.o \
                 benchmarks/bcast.o \
                 benchmarks/gather.o \
@@ -52,6 +53,9 @@ timeslot.o: timeslot.c timeslot.h
 mpigclock.o: mpigclock.c mpigclock.h
 hpctimer.o: hpctimer.c hpctimer.h
 logger.o: logger.c logger.h
+bench_coll.o: bench_coll.c bench.h
+bench_nbc.o: bench_nbc.c bench.h
+bench_pt2pt.o: bench_pt2pt.c bench.h
 
 benchmarks/barrier.h: benchmarks/barrier.c benchmarks/barrier.h
 benchmarks/bcast.o: benchmarks/bcast.c benchmarks/bcast.h

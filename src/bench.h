@@ -11,6 +11,8 @@
 
 #include "stats.h"
 
+#define NELEMS(v) (sizeof(v) / sizeof((v)[0]))
+
 #define IS_MEASURE_INVALID(time) ((MEASURE_TIME_INVVAL - (time)) < 1.0)
 #define IS_MEASURE_STARTED_LATE(time) ((MEASURE_STARTED_LATE - (time)) < 1.0)
 #define IS_MEASURE_TIME_TOOLONG(time) ((MEASURE_TIME_TOOLONG - (time)) < 1.0)
@@ -19,9 +21,12 @@
 #define MEASURE_STARTED_LATE (MEASURE_TIME_INVVAL + 10)
 #define MEASURE_TIME_TOOLONG (MEASURE_TIME_INVVAL + 20)
 
+#define TEST_SLOTLEN_SCALE 1.1
+
 enum MPIFunctionType {
     MPIFUNC_TYPE_COLL = 1,
-    MPIFUNC_TYPE_PT2PT = 2
+    MPIFUNC_TYPE_NBC = 2,
+    MPIFUNC_TYPE_PT2PT = 3
 };
 
 enum ParameterType {
@@ -32,6 +37,12 @@ enum ParameterType {
 enum {
     TEST_EXIT_COND_NRUNS = 0,
     TEST_EXIT_COND_STDERR = 1
+};
+
+enum {
+    TEST_REALLOC_GROWSTEP = 2,
+    TEST_STAGE_NRUNS_INIT = 4,
+    TEST_STAGE_NRUNS = 8
 };
 
 typedef struct bench bench_t;
@@ -54,7 +65,7 @@ typedef void (*paramseq_reset_ptr_t)(bench_t *bench);
  */
 struct bench {
     char *name;                       /* Benchmark name */
-    int mpifunctype;                  /* Routine type: collective, pt2pt */
+    int mpifunctype;                  /* Сollective, NBC, pt2pt */
 
     printinfo_ptr_t printinfo;
     bench_init_ptr_t init;            /* Called before all tests */
@@ -81,6 +92,9 @@ void print_benchmarks_info();
 bench_t *lookup_bench(const char *name);
 int is_pt2pt_benchmark(bench_t *bench);
 double measure_bcast_double(MPI_Comm comm);
+MPI_Comm getcommworld();
+int getcommworld_size(bench_t *bench);
+int getcommworld_rank(bench_t *bench);
 
 int run_collective_bench(bench_t *bench);
 int run_collective_test_synctime(bench_t *bench, double **exectime,
@@ -92,9 +106,6 @@ int run_collective_test_nosync(bench_t *bench, double *exectime,
 int run_pt2pt_bench(bench_t *bench);
 int run_pt2pt_test_synctime(bench_t *bench, double **exectime, int *nmeasurements,
                             int *ncorrect_measurements);
-MPI_Comm getcommworld();
-int getcommworld_size(bench_t *bench);
-int getcommworld_rank(bench_t *bench);
 
 #endif /* BENCH_H */
 

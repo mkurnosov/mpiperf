@@ -1,7 +1,7 @@
 /*
  * benchtab.h: List of benchmarks.
  *
- * Copyright (C) 2011 Mikhail Kurnosov
+ * Copyright (C) 2011-2012 Mikhail Kurnosov
  */
 
 #ifndef BENCHTAB_H
