@@ -1,7 +1,7 @@
 /*
  * mempool.h: Memory management routines.
  *
- * Copyright (C) 2010 Mikhail Kurnosov
+ * Copyright (C) 2010-2012 Mikhail Kurnosov
  */
 
 #ifndef MEMPOOL_H

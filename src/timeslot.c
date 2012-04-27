@@ -11,13 +11,13 @@
 
 #include "timeslot.h"
 #include "mpigclock.h"
-#include "bench.h"
 #include "mpiperf.h"
 #include "logger.h"
 #include "hpctimer.h"
+#include "stat.h"
 #include "util.h"
 
-#define BCAST_OVERHEAD 1.2
+#define TIMESLOT_BCAST_OVERHEAD 1.2
 
 static double timeslot_stagestart;
 static int timeslot;
@@ -26,6 +26,8 @@ static double bcasttime;
 static double timeslot_slotstart;
 static double timeslot_slotstop;
 
+static double measure_bcast_double(MPI_Comm comm);
+
 /* timeslot_initialize: */
 int timeslot_initialize()
 {
@@ -33,20 +35,22 @@ int timeslot_initialize()
 }
 
 /* timeslot_initialize_test: */
-int timeslot_initialize_test(bench_t *bench)
+int timeslot_initialize_test(MPI_Comm comm)
 {
-    /* Synchronize clocks */
+    int commsize;
+
+	/* Synchronize clocks */
     double synctime = hpctimer_wtime();
-    mpigclock_sync(bench->getcomm(bench), mpiperf_master_rank,
-                   MPIGCLOCK_SYNC_LINEAR);
+    mpigclock_sync(comm, mpiperf_master_rank, MPIGCLOCK_SYNC_LINEAR);
     synctime = hpctimer_wtime() - synctime;
 
+    MPI_Comm_size(comm, &commsize);
     logger_log("Clock synchronization time (commsize: %d, root: %d): %.6f sec.",
-               bench->getcommsize(bench), mpiperf_master_rank, synctime);
+               commsize, mpiperf_master_rank, synctime);
     logger_log("Local clock offset (commsize: %d, root: %d): %.6f sec.",
-               bench->getcommsize(bench), mpiperf_master_rank, mpigclock_offset());
+    		   commsize, mpiperf_master_rank, mpigclock_offset());
 
-    bcasttime = measure_bcast_double(bench->getcomm(bench)) * BCAST_OVERHEAD;
+    bcasttime = measure_bcast_double(comm) * TIMESLOT_BCAST_OVERHEAD;
     logger_log("MPI_Bcast time: %.6f sec.", bcasttime);
     return MPIPERF_SUCCESS;
 }
@@ -58,9 +62,8 @@ void timeslot_set_length(double length)
 }
 
 /* timeslot_setlen: Set start time of the first time slot. */
-double timeslot_set_starttime(bench_t *bench)
+double timeslot_set_starttime(MPI_Comm comm)
 {
-    MPI_Comm comm = bench->getcomm(bench);
     MPI_Barrier(comm);
     
     timeslot = 0;
@@ -84,7 +87,7 @@ double timeslot_startsync()
 {
     double starttime = 0.0;
 
-    if (mpiperf_synctype == MPIPERF_SYNC_TIME) {
+    if (mpiperf_synctype == SYNC_TIME) {
     	starttime = timeslot_stagestart + timeslot_len * (timeslot++);
     	if ((timeslot_slotstart = hpctimer_wtime()) > starttime) {
         	return TIMESLOT_TIME_INVALID;
@@ -104,7 +107,7 @@ double timeslot_startsync()
  */
 double timeslot_stopsync()
 {
-    if (mpiperf_synctype == MPIPERF_SYNC_TIME) {
+    if (mpiperf_synctype == SYNC_TIME) {
         timeslot_slotstop = hpctimer_wtime();
     	return (timeslot_slotstop - timeslot_slotstart < timeslot_len) ?
                timeslot_slotstop : TIMESLOT_TIME_INVALID;
@@ -115,5 +118,31 @@ double timeslot_stopsync()
 /* timeslot_finalize: */
 void timeslot_finalize()
 {
+}
+
+/*
+ * measure_bcast_double: Measures MPI_Bcast function time
+ *                       for sending one element of type double.
+ *                       This value is used for determining start time
+ *                       of the first timeslot.
+ */
+static double measure_bcast_double(MPI_Comm comm)
+{
+    double buf, totaltime = 0.0, optime, maxtime = 0.0;
+    int i, nreps = 3;
+
+    /* Warmup call */
+    MPI_Bcast(&buf, 1, MPI_DOUBLE, mpiperf_master_rank, comm);
+    /* Measures (upper bound) */
+    for (i = 0; i < nreps; i++) {
+        MPI_Barrier(comm);
+        optime = hpctimer_wtime();
+        MPI_Bcast(&buf, 1, MPI_DOUBLE, mpiperf_master_rank, comm);
+        optime = hpctimer_wtime() - optime;
+        MPI_Reduce(&optime, &maxtime, 1, MPI_DOUBLE, MPI_MAX,
+                   mpiperf_master_rank, comm);
+        totaltime = stat_fmax2(totaltime, maxtime);
+    }
+    return totaltime;
 }
 

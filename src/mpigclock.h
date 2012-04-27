@@ -13,14 +13,13 @@
 extern "C" {
 #endif
 
-/* Return codes */
-enum {
+enum GClockReturnCode {
     MPIGCLOCK_SUCCESS = 0,
     MPIGCLOCK_FAILURE = 1
 };
 
 /* Clock synchronization algorithms */
-enum SyncAlg {
+enum GClockSyncAlg {
     MPIGCLOCK_SYNC_LINEAR = 0,
     MPIGCLOCK_SYNC_RING = 1
 };
