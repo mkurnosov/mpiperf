@@ -15,6 +15,7 @@ void print_error(const char *format, ...);
 void exit_error(const char *format, ...);
 void exit_success();
 int getworldrank(MPI_Comm comm, int rank);
+MPI_Comm createcomm(MPI_Comm comm, int size);
 int parse_intval(char *s);
 
 #endif /* UTIL_H */

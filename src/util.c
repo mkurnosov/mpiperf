@@ -117,6 +117,16 @@ int getworldrank(MPI_Comm comm, int rank)
     return worldrank;
 }
 
+MPI_Comm createcomm(MPI_Comm comm, int size)
+{
+    MPI_Comm newcomm;
+    int rank;
+
+    MPI_Comm_rank(comm, &rank);
+    MPI_Comm_split(comm, (rank < size) ? 0 : MPI_UNDEFINED, rank, &newcomm);
+    return newcomm;
+}
+
 /*
  * parse_intval: Converts string to integer.
  *               Recognizes suffixes KiB, MiB, GiB.
@@ -147,3 +157,4 @@ int parse_intval(char *s)
     }
     return val * scale;
 }
+

@@ -1,7 +1,6 @@
 #
 # mpiperf makefile.
 #
-
 include Makefile.inc
 
 package = mpiperf

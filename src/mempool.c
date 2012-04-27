@@ -1,7 +1,7 @@
 /*
  * mempool.c: Memory management routines.
  *
- * Copyright (C) 2010 Mikhail Kurnosov
+ * Copyright (C) 2010-2012 Mikhail Kurnosov
  */
 
 #include <stdio.h>
@@ -14,31 +14,24 @@
 
 enum {
     MEMPOOL_CACHELINE_SIZE = 64,
-    MEMPOOL_BLOCKS = 4
+    MEMPOOL_BLOCKS = 8
 };
 
 struct mempool {
-    char *pool;
-    char *pool_aligned;
-    char *end;
-    char *ptr;
+    char *pool;				/* Base pointer to mem. pool */
+    char *pool_aligned;		/* Aligned pointer to mem. pool */
+    char *end;				/* End of mem. pool */
+    char *ptr;				/* Current free block */
+    size_t size;			/* Pool size */
     int cachedefeat;
-    size_t size;
 };
 
 static int mempool_alignment = 32;
 
 static inline void *alignptr(void *p, int alignment);
 
-/* alignptr: Aligns pointer on given boundary. */
-static inline void *alignptr(void *p, int alignment)
-{
-    /* (((uintptr_t)p + alignment - 1) & ~(uintptr_t)(alignment - 1)); */
-    return (void *)(((unsigned long)p + alignment - 1) & ~(alignment - 1));
-}
-
 /* mempool_create: */
-mempool_t *mempool_create(size_t allocmax, int cachedefeat)
+mempool_t *mempool_create(size_t size, int cachedefeat)
 {
     mempool_t *p;
 
@@ -46,17 +39,27 @@ mempool_t *mempool_create(size_t allocmax, int cachedefeat)
         return NULL;
     }
 
+    if (size == 0) {
+		/*
+		 * If the size of the space requested by malloc is zero, the behavior
+		 * is implementation defined.
+		 * We increase size to 1 byte.
+		 */
+    	size = 1;
+    }
+
     if (cachedefeat) {
         /*
          * Allocate memory for circular buffer:
-         * block | cache line | block | cache line | ...
+         * data block | cache line | data block | cache line | ...
          */
-        p->size = allocmax * MEMPOOL_BLOCKS +
+        p->size = size * MEMPOOL_BLOCKS +
                   (MEMPOOL_BLOCKS - 1) * MEMPOOL_CACHELINE_SIZE;
         p->size += mempool_alignment - 1;
     } else {
-        p->size = allocmax;
+        p->size = size;
     }
+
     if ( (p->pool = malloc(sizeof(*p->pool) * p->size)) == NULL) {
         free(p);
         return NULL;
@@ -65,9 +68,9 @@ mempool_t *mempool_create(size_t allocmax, int cachedefeat)
     p->ptr = p->pool_aligned;
     p->end = p->pool + p->size;
     p->cachedefeat = cachedefeat;
-    logger_log("Memory pool: size %u bytes, cache defeat: %d",
-               p->size, cachedefeat);
-    memset(p->pool, 0x77, p->size);
+    logger_log("Memory pool: total size %u bytes, cache defeat: %d",
+               p->size, p->cachedefeat);
+    /* memset(p->pool, 0x77, p->size); */
     return p;
 }
 
@@ -75,8 +78,8 @@ void mempool_free(mempool_t *mempool)
 {
     if (mempool) {
         free(mempool->pool);
+        free(mempool);
     }
-    free(mempool);
 }
 
 /* mempool_alloc: Returns aligned pointer to memory block of given size. */
@@ -84,6 +87,9 @@ void *mempool_alloc(mempool_t *mempool, size_t size)
 {
     if (!mempool)
         return NULL;
+
+    if (size == 0)
+    	return 0;
 
 	if (mempool->cachedefeat) {
 	    /* Defeat CPU cache */
@@ -96,6 +102,12 @@ void *mempool_alloc(mempool_t *mempool, size_t size)
 	    return (mempool->pool_aligned + size < mempool->end) ?
 	           mempool->pool_aligned : NULL;
 	}
-	/* CPU cache is off: return buffer alloced by malloc */
 	return mempool->pool;
+}
+
+/* alignptr: Aligns pointer on given boundary. */
+static inline void *alignptr(void *p, int alignment)
+{
+    /* (((uintptr_t)p + alignment - 1) & ~(uintptr_t)(alignment - 1)); */
+    return (void *)(((unsigned long)p + alignment - 1) & ~(alignment - 1));
 }
