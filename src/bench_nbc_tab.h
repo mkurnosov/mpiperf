@@ -9,17 +9,18 @@
 
 #include "nbc/iallreduce.h"
 #include "nbc/ibarrier.h"
+#include "nbc/ibcast.h"
 
 /*
 MPICH2 1.5b1 NBC routines:
 iallgather
 iallgatherv
-iallreduce
++ iallreduce
 ialltoall
 ialltoallv
 ialltoallw
-ibarrier
-ibcast
++ ibarrier
++ ibcast
 iexscan
 igather
 igatherv
@@ -49,6 +50,14 @@ nbcbench_t nbcbenchtab[] = {
     (nbcbench_collop_blocking_ptr_t)measure_ibarrier_blocking,
     (nbcbench_collop_overlap_ptr_t)measure_ibarrier_overlap,
 },
+{
+	"Ibcast",
+    (nbcbench_init_ptr_t)bench_ibcast_init,
+    (nbcbench_free_ptr_t)bench_ibcast_free,
+    (nbcbench_printinfo_ptr_t)bench_ibcast_printinfo,
+    (nbcbench_collop_blocking_ptr_t)measure_ibcast_blocking,
+    (nbcbench_collop_overlap_ptr_t)measure_ibcast_overlap,
+}
 #endif
 };
 
