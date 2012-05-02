@@ -99,7 +99,7 @@ int main(int argc, char **argv)
     set_default_options();
 	if (mpiperf_commsize < 2) {
         MPI_Finalize();
-        fprintf(stderr, "Number of processes is too small: %d", mpiperf_commsize);
+        fprintf(stderr, "Number of processes is too small: %d\n", mpiperf_commsize);
         exit(EXIT_FAILURE);
 	}
 

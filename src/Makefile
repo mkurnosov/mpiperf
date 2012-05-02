@@ -31,7 +31,8 @@ mpiperf_objs := mpiperf.o util.o mempool.o stat.o report.o timeslot.o \
                 pt2pt/sendrecv.o \
                 bench_nbc.o \
                 nbc/iallreduce.o \
-                nbc/ibarrier.o
+                nbc/ibarrier.o \
+                nbc/ibcast.o
 
 .PHONY: all clean
 
@@ -88,6 +89,7 @@ pt2pt/send.o: pt2pt/send.c pt2pt/send.h
 pt2pt/sendrecv.o: pt2pt/sendrecv.c pt2pt/sendrecv.h
 nbc/iallreduce.o: nbc/iallreduce.c nbc/iallreduce.h
 nbc/ibarrier.o: nbc/ibarrier.c nbc/ibarrier.h
+nbc/ibcast.o: nbc/ibcast.c nbc/ibcast.h
 
 clean:
 	@rm -rf *.o coll/*.o nbc/*.o pt2pt/*.o $(mpiperf) 
