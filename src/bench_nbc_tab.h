@@ -23,6 +23,7 @@
 #include "nbc/ireduce.h"
 #include "nbc/iscan.h"
 #include "nbc/iscatter.h"
+#include "nbc/iscatterv.h"
 
 /*
 MPICH2 1.5b1 NBC routines:
@@ -39,10 +40,10 @@ MPICH2 1.5b1 NBC routines:
 +igatherv
 +ireduce_scatter_block
 +ireduce_scatter
-+ ireduce
-+ iscan
-+ iscatter
-iscatterv
++ireduce
++iscan
++iscatter
++iscatterv
 */
 
 nbcbench_t nbcbenchtab[] = {
@@ -175,6 +176,14 @@ nbcbench_t nbcbenchtab[] = {
     (nbcbench_collop_blocking_ptr_t)measure_iscatter_blocking,
     (nbcbench_collop_overlap_ptr_t)measure_iscatter_overlap,
 },
+{
+	"Iscatterv",
+    (nbcbench_init_ptr_t)bench_iscatterv_init,
+    (nbcbench_free_ptr_t)bench_iscatterv_free,
+    (nbcbench_printinfo_ptr_t)bench_iscatterv_printinfo,
+    (nbcbench_collop_blocking_ptr_t)measure_iscatterv_blocking,
+    (nbcbench_collop_overlap_ptr_t)measure_iscatterv_overlap,
+}
 };
 #endif
 #endif /* BENCH_NBC_TAB_H */
