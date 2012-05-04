@@ -38,6 +38,7 @@ mpiperf_objs := mpiperf.o util.o mempool.o stat.o report.o timeslot.o \
                 nbc/ialltoallw.o \
                 nbc/iexscan.o \
                 nbc/igather.o \
+                nbc/igatherv.o \
                 nbc/ibarrier.o \
                 nbc/ibcast.o
 
@@ -102,6 +103,7 @@ nbc/ialltoallv.o: nbc/ialltoallv.c nbc/ialltoallv.h
 nbc/ialltoallw.o: nbc/ialltoallw.c nbc/ialltoallw.h
 nbc/iexscan.o: nbc/iexscan.c nbc/iexscan.h
 nbc/igather.o: nbc/igather.c nbc/igather.h
+nbc/igatherv.o: nbc/igatherv.c nbc/igatherv.h
 nbc/ibarrier.o: nbc/ibarrier.c nbc/ibarrier.h
 nbc/ibcast.o: nbc/ibcast.c nbc/ibcast.h
 
