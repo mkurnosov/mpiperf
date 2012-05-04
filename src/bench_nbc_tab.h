@@ -8,6 +8,7 @@
 #define BENCH_NBC_TAB_H
 
 #include "nbc/iallgather.h"
+#include "nbc/iallgatherv.h"
 #include "nbc/iallreduce.h"
 #include "nbc/ibarrier.h"
 #include "nbc/ibcast.h"
@@ -15,7 +16,7 @@
 /*
 MPICH2 1.5b1 NBC routines:
 +iallgather
-iallgatherv
++iallgatherv
 + iallreduce
 ialltoall
 ialltoallv
@@ -42,6 +43,14 @@ nbcbench_t nbcbenchtab[] = {
     (nbcbench_printinfo_ptr_t)bench_iallgather_printinfo,
     (nbcbench_collop_blocking_ptr_t)measure_iallgather_blocking,
     (nbcbench_collop_overlap_ptr_t)measure_iallgather_overlap,
+},
+{
+	"Iallgatherv",
+    (nbcbench_init_ptr_t)bench_iallgatherv_init,
+    (nbcbench_free_ptr_t)bench_iallgatherv_free,
+    (nbcbench_printinfo_ptr_t)bench_iallgatherv_printinfo,
+    (nbcbench_collop_blocking_ptr_t)measure_iallgatherv_blocking,
+    (nbcbench_collop_overlap_ptr_t)measure_iallgatherv_overlap,
 },
 {
 	"Iallreduce",

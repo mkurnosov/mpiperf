@@ -31,6 +31,7 @@ mpiperf_objs := mpiperf.o util.o mempool.o stat.o report.o timeslot.o \
                 pt2pt/sendrecv.o \
                 bench_nbc.o \
                 nbc/iallgather.o \
+                nbc/iallgatherv.o \
                 nbc/iallreduce.o \
                 nbc/ibarrier.o \
                 nbc/ibcast.o
@@ -89,6 +90,7 @@ coll/waitpattern.o: coll/waitpattern.c coll/waitpattern.h
 pt2pt/send.o: pt2pt/send.c pt2pt/send.h
 pt2pt/sendrecv.o: pt2pt/sendrecv.c pt2pt/sendrecv.h
 nbc/iallgather.o: nbc/iallgather.c nbc/iallgather.h
+nbc/iallgatherv.o: nbc/iallgatherv.c nbc/iallgatherv.h
 nbc/iallreduce.o: nbc/iallreduce.c nbc/iallreduce.h
 nbc/ibarrier.o: nbc/ibarrier.c nbc/ibarrier.h
 nbc/ibcast.o: nbc/ibcast.c nbc/ibcast.h
