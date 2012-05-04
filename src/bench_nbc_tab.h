@@ -18,6 +18,7 @@
 #include "nbc/iexscan.h"
 #include "nbc/igather.h"
 #include "nbc/igatherv.h"
+#include "nbc/ireduce_scatter_block.h"
 #include "nbc/ireduce_scatter.h"
 
 /*
@@ -33,8 +34,8 @@ MPICH2 1.5b1 NBC routines:
 +iexscan
 +igather
 +igatherv
++ireduce_scatter_block
 +ireduce_scatter
-ired_scat_block
 ireduce
 iscan
 iscatter
@@ -130,6 +131,14 @@ nbcbench_t nbcbenchtab[] = {
     (nbcbench_printinfo_ptr_t)bench_igatherv_printinfo,
     (nbcbench_collop_blocking_ptr_t)measure_igatherv_blocking,
     (nbcbench_collop_overlap_ptr_t)measure_igatherv_overlap,
+},
+{
+	"Ireduce_scatter_block",
+    (nbcbench_init_ptr_t)bench_ireduce_scatter_block_init,
+    (nbcbench_free_ptr_t)bench_ireduce_scatter_block_free,
+    (nbcbench_printinfo_ptr_t)bench_ireduce_scatter_block_printinfo,
+    (nbcbench_collop_blocking_ptr_t)measure_ireduce_scatter_block_blocking,
+    (nbcbench_collop_overlap_ptr_t)measure_ireduce_scatter_block_overlap,
 },
 {
 	"Ireduce_scatter",

@@ -41,6 +41,7 @@ mpiperf_objs := mpiperf.o util.o mempool.o stat.o report.o timeslot.o \
                 nbc/iexscan.o \
                 nbc/igather.o \
                 nbc/igatherv.o \
+                nbc/ireduce_scatter_block.o \
                 nbc/ireduce_scatter.o 
 
 .PHONY: all clean
@@ -107,6 +108,7 @@ nbc/ibcast.o: nbc/ibcast.c nbc/ibcast.h
 nbc/iexscan.o: nbc/iexscan.c nbc/iexscan.h
 nbc/igather.o: nbc/igather.c nbc/igather.h
 nbc/igatherv.o: nbc/igatherv.c nbc/igatherv.h
+nbc/ireduce_scatter_block.o: nbc/ireduce_scatter_block.c nbc/ireduce_scatter_block.h
 nbc/ireduce_scatter.o: nbc/ireduce_scatter.c nbc/ireduce_scatter.h
 
 clean:
