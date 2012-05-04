@@ -97,11 +97,6 @@ int main(int argc, char **argv)
 
     MPI_Init(&argc, &argv);
     set_default_options();
-	if (mpiperf_commsize < 2) {
-        MPI_Finalize();
-        fprintf(stderr, "Number of processes is too small: %d\n", mpiperf_commsize);
-        exit(EXIT_FAILURE);
-	}
 
     /* Save command line */
     mpiperf_cmdline = (char *)malloc(sizeof(*mpiperf_cmdline) *
@@ -387,6 +382,12 @@ static int parse_options(int argc, char **argv)
             exit_success();
         }
     }
+
+	if (mpiperf_commsize < 2) {
+        MPI_Finalize();
+        fprintf(stderr, "Number of processes is too small: %d\n", mpiperf_commsize);
+        exit(EXIT_FAILURE);
+	}
 
 	if (mpiperf_nprocs_min < 1 || mpiperf_nprocs_max > mpiperf_commsize ||
 		mpiperf_nprocs_min > mpiperf_nprocs_max)

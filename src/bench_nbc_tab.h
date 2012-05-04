@@ -7,13 +7,14 @@
 #ifndef BENCH_NBC_TAB_H
 #define BENCH_NBC_TAB_H
 
+#include "nbc/iallgather.h"
 #include "nbc/iallreduce.h"
 #include "nbc/ibarrier.h"
 #include "nbc/ibcast.h"
 
 /*
 MPICH2 1.5b1 NBC routines:
-iallgather
++iallgather
 iallgatherv
 + iallreduce
 ialltoall
@@ -34,6 +35,14 @@ iscatterv
 
 nbcbench_t nbcbenchtab[] = {
 #if MPICH2_NUMVERSION >= 10500002
+{
+	"Iallgather",
+    (nbcbench_init_ptr_t)bench_iallgather_init,
+    (nbcbench_free_ptr_t)bench_iallgather_free,
+    (nbcbench_printinfo_ptr_t)bench_iallgather_printinfo,
+    (nbcbench_collop_blocking_ptr_t)measure_iallgather_blocking,
+    (nbcbench_collop_overlap_ptr_t)measure_iallgather_overlap,
+},
 {
 	"Iallreduce",
     (nbcbench_init_ptr_t)bench_iallreduce_init,
