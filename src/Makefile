@@ -44,7 +44,8 @@ mpiperf_objs := mpiperf.o util.o mempool.o stat.o report.o timeslot.o \
                 nbc/ireduce_scatter_block.o \
                 nbc/ireduce_scatter.o \
                 nbc/ireduce.o  \
-                nbc/iscan.o 
+                nbc/iscan.o \
+                nbc/iscatter.o 
 
 .PHONY: all clean
 
@@ -114,6 +115,7 @@ nbc/ireduce_scatter_block.o: nbc/ireduce_scatter_block.c nbc/ireduce_scatter_blo
 nbc/ireduce_scatter.o: nbc/ireduce_scatter.c nbc/ireduce_scatter.h
 nbc/ireduce.o: nbc/ireduce.c nbc/ireduce.h
 nbc/iscan.o: nbc/iscan.c nbc/iscan.h
+nbc/iscatter.o: nbc/iscatter.c nbc/iscatter.h
 
 clean:
 	@rm -rf *.o coll/*.o nbc/*.o pt2pt/*.o $(mpiperf) 
