@@ -14,6 +14,7 @@
 #include "nbc/ialltoallv.h"
 #include "nbc/ialltoallw.h"
 #include "nbc/iexscan.h"
+#include "nbc/igather.h"
 #include "nbc/ibarrier.h"
 #include "nbc/ibcast.h"
 
@@ -28,7 +29,7 @@ MPICH2 1.5b1 NBC routines:
 +ibarrier
 +ibcast
 +iexscan
-igather
++igather
 igatherv
 ired_scat
 ired_scat_block
@@ -95,6 +96,14 @@ nbcbench_t nbcbenchtab[] = {
     (nbcbench_printinfo_ptr_t)bench_iexscan_printinfo,
     (nbcbench_collop_blocking_ptr_t)measure_iexscan_blocking,
     (nbcbench_collop_overlap_ptr_t)measure_iexscan_overlap,
+},
+{
+	"Igather",
+    (nbcbench_init_ptr_t)bench_igather_init,
+    (nbcbench_free_ptr_t)bench_igather_free,
+    (nbcbench_printinfo_ptr_t)bench_igather_printinfo,
+    (nbcbench_collop_blocking_ptr_t)measure_igather_blocking,
+    (nbcbench_collop_overlap_ptr_t)measure_igather_overlap,
 },
 {
 	"Ibarrier",
