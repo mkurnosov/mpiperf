@@ -32,6 +32,8 @@ mpiperf_objs := mpiperf.o util.o mempool.o stat.o report.o timeslot.o \
                 bench_nbc.o \
                 nbc/iallgather.o \
                 nbc/iallgatherv.o \
+                nbc/ibarrier.o \
+                nbc/ibcast.o \
                 nbc/iallreduce.o \
                 nbc/ialltoall.o \
                 nbc/ialltoallv.o \
@@ -39,8 +41,7 @@ mpiperf_objs := mpiperf.o util.o mempool.o stat.o report.o timeslot.o \
                 nbc/iexscan.o \
                 nbc/igather.o \
                 nbc/igatherv.o \
-                nbc/ibarrier.o \
-                nbc/ibcast.o
+                nbc/ireduce_scatter.o 
 
 .PHONY: all clean
 
@@ -101,11 +102,12 @@ nbc/iallreduce.o: nbc/iallreduce.c nbc/iallreduce.h
 nbc/ialltoall.o: nbc/ialltoall.c nbc/ialltoall.h
 nbc/ialltoallv.o: nbc/ialltoallv.c nbc/ialltoallv.h
 nbc/ialltoallw.o: nbc/ialltoallw.c nbc/ialltoallw.h
+nbc/ibarrier.o: nbc/ibarrier.c nbc/ibarrier.h
+nbc/ibcast.o: nbc/ibcast.c nbc/ibcast.h
 nbc/iexscan.o: nbc/iexscan.c nbc/iexscan.h
 nbc/igather.o: nbc/igather.c nbc/igather.h
 nbc/igatherv.o: nbc/igatherv.c nbc/igatherv.h
-nbc/ibarrier.o: nbc/ibarrier.c nbc/ibarrier.h
-nbc/ibcast.o: nbc/ibcast.c nbc/ibcast.h
+nbc/ireduce_scatter.o: nbc/ireduce_scatter.c nbc/ireduce_scatter.h
 
 clean:
 	@rm -rf *.o coll/*.o nbc/*.o pt2pt/*.o $(mpiperf) 

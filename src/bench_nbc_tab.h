@@ -13,11 +13,12 @@
 #include "nbc/ialltoall.h"
 #include "nbc/ialltoallv.h"
 #include "nbc/ialltoallw.h"
+#include "nbc/ibarrier.h"
+#include "nbc/ibcast.h"
 #include "nbc/iexscan.h"
 #include "nbc/igather.h"
 #include "nbc/igatherv.h"
-#include "nbc/ibarrier.h"
-#include "nbc/ibcast.h"
+#include "nbc/ireduce_scatter.h"
 
 /*
 MPICH2 1.5b1 NBC routines:
@@ -32,7 +33,7 @@ MPICH2 1.5b1 NBC routines:
 +iexscan
 +igather
 +igatherv
-ired_scat
++ireduce_scatter
 ired_scat_block
 ireduce
 iscan
@@ -91,6 +92,22 @@ nbcbench_t nbcbenchtab[] = {
     (nbcbench_collop_overlap_ptr_t)measure_ialltoallw_overlap,
 },
 {
+	"Ibarrier",
+    (nbcbench_init_ptr_t)bench_ibarrier_init,
+    (nbcbench_free_ptr_t)bench_ibarrier_free,
+    (nbcbench_printinfo_ptr_t)bench_ibarrier_printinfo,
+    (nbcbench_collop_blocking_ptr_t)measure_ibarrier_blocking,
+    (nbcbench_collop_overlap_ptr_t)measure_ibarrier_overlap,
+},
+{
+	"Ibcast",
+    (nbcbench_init_ptr_t)bench_ibcast_init,
+    (nbcbench_free_ptr_t)bench_ibcast_free,
+    (nbcbench_printinfo_ptr_t)bench_ibcast_printinfo,
+    (nbcbench_collop_blocking_ptr_t)measure_ibcast_blocking,
+    (nbcbench_collop_overlap_ptr_t)measure_ibcast_overlap,
+},
+{
 	"Iexscan",
     (nbcbench_init_ptr_t)bench_iexscan_init,
     (nbcbench_free_ptr_t)bench_iexscan_free,
@@ -115,21 +132,13 @@ nbcbench_t nbcbenchtab[] = {
     (nbcbench_collop_overlap_ptr_t)measure_igatherv_overlap,
 },
 {
-	"Ibarrier",
-    (nbcbench_init_ptr_t)bench_ibarrier_init,
-    (nbcbench_free_ptr_t)bench_ibarrier_free,
-    (nbcbench_printinfo_ptr_t)bench_ibarrier_printinfo,
-    (nbcbench_collop_blocking_ptr_t)measure_ibarrier_blocking,
-    (nbcbench_collop_overlap_ptr_t)measure_ibarrier_overlap,
+	"Ireduce_scatter",
+    (nbcbench_init_ptr_t)bench_ireduce_scatter_init,
+    (nbcbench_free_ptr_t)bench_ireduce_scatter_free,
+    (nbcbench_printinfo_ptr_t)bench_ireduce_scatter_printinfo,
+    (nbcbench_collop_blocking_ptr_t)measure_ireduce_scatter_blocking,
+    (nbcbench_collop_overlap_ptr_t)measure_ireduce_scatter_overlap,
 },
-{
-	"Ibcast",
-    (nbcbench_init_ptr_t)bench_ibcast_init,
-    (nbcbench_free_ptr_t)bench_ibcast_free,
-    (nbcbench_printinfo_ptr_t)bench_ibcast_printinfo,
-    (nbcbench_collop_blocking_ptr_t)measure_ibcast_blocking,
-    (nbcbench_collop_overlap_ptr_t)measure_ibcast_overlap,
-}
 #endif
 };
 

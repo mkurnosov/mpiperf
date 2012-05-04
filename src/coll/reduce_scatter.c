@@ -19,7 +19,6 @@ static int *recvcounts = NULL;
 static int sbufsize;
 static int rbufsize;
 
-
 /* bench_reduce_scatter_init: */
 int bench_reduce_scatter_init(colltest_params_t *params)
 {
