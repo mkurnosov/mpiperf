@@ -30,12 +30,13 @@ mpiperf_objs := mpiperf.o util.o mempool.o stat.o report.o timeslot.o \
                 pt2pt/send.o \
                 pt2pt/sendrecv.o \
                 bench_nbc.o \
-                nbc/ialltoall.o \
-                nbc/ialltoallv.o \
-                nbc/ialltoallw.o \
                 nbc/iallgather.o \
                 nbc/iallgatherv.o \
                 nbc/iallreduce.o \
+                nbc/ialltoall.o \
+                nbc/ialltoallv.o \
+                nbc/ialltoallw.o \
+                nbc/iexscan.o \
                 nbc/ibarrier.o \
                 nbc/ibcast.o
 
@@ -92,12 +93,13 @@ coll/exscan.o: coll/exscan.c coll/exscan.h
 coll/waitpattern.o: coll/waitpattern.c coll/waitpattern.h
 pt2pt/send.o: pt2pt/send.c pt2pt/send.h
 pt2pt/sendrecv.o: pt2pt/sendrecv.c pt2pt/sendrecv.h
-nbc/ialltoall.o: nbc/ialltoall.c nbc/ialltoall.h
-nbc/ialltoallv.o: nbc/ialltoallv.c nbc/ialltoallv.h
-nbc/ialltoallw.o: nbc/ialltoallw.c nbc/ialltoallw.h
 nbc/iallgather.o: nbc/iallgather.c nbc/iallgather.h
 nbc/iallgatherv.o: nbc/iallgatherv.c nbc/iallgatherv.h
 nbc/iallreduce.o: nbc/iallreduce.c nbc/iallreduce.h
+nbc/ialltoall.o: nbc/ialltoall.c nbc/ialltoall.h
+nbc/ialltoallv.o: nbc/ialltoallv.c nbc/ialltoallv.h
+nbc/ialltoallw.o: nbc/ialltoallw.c nbc/ialltoallw.h
+nbc/iexscan.o: nbc/iexscan.c nbc/iexscan.h
 nbc/ibarrier.o: nbc/ibarrier.c nbc/ibarrier.h
 nbc/ibcast.o: nbc/ibcast.c nbc/ibcast.h
 
