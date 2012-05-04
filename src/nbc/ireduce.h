@@ -15,8 +15,8 @@ int bench_ireduce_init(nbctest_params_t *params);
 int bench_ireduce_free();
 int bench_ireduce_printinfo();
 int measure_ireduce_blocking(nbctest_params_t *params,
-		                     nbctest_result_t *result);
+                             nbctest_result_t *result);
 int measure_ireduce_overlap(nbctest_params_t *params,
-		                    nbctest_result_t *result);
+                            nbctest_result_t *result);
 
 #endif /* IREDUCE_H */

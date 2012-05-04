@@ -15,8 +15,8 @@ int bench_iexscan_init(nbctest_params_t *params);
 int bench_iexscan_free();
 int bench_iexscan_printinfo();
 int measure_iexscan_blocking(nbctest_params_t *params,
- 		                     nbctest_result_t *result);
+                             nbctest_result_t *result);
 int measure_iexscan_overlap(nbctest_params_t *params,
-		                    nbctest_result_t *result);
+                            nbctest_result_t *result);
 
 #endif /* IEXSCAN_H */

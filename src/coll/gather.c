@@ -21,12 +21,12 @@ static int root = 0;
 /* bench_gather_init: */
 int bench_gather_init(colltest_params_t *params)
 {
-	int rank;
+    int rank;
 
-	rbufpool = NULL;
+    rbufpool = NULL;
     rbufsize = 0;
 
-	sbufpool = mempool_create(params->count, mpiperf_isflushcache);
+    sbufpool = mempool_create(params->count, mpiperf_isflushcache);
     if (sbufpool == NULL) {
         return MPIPERF_FAILURE;
     }
@@ -75,7 +75,7 @@ int measure_gather_sync(colltest_params_t *params, double *time)
 
     if ((rc == MPI_SUCCESS) && (starttime > 0.0) && (endtime > 0.0)) {
         *time = endtime - starttime;
-    	return MEASURE_SUCCESS;
+        return MEASURE_SUCCESS;
     } else if (starttime < 0.0) {
         return MEASURE_STARTED_LATE;
     } else if (endtime < 0.0) {

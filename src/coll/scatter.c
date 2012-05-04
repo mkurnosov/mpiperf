@@ -21,13 +21,13 @@ static int root = 0;
 /* bench_scatter_init: */
 int bench_scatter_init(colltest_params_t *params)
 {
-	int rank;
+    int rank;
 
-	sbufpool = NULL;
-	sbufsize = 0;
+    sbufpool = NULL;
+    sbufsize = 0;
 
-	MPI_Comm_rank(params->comm, &rank);
-	if (rank == root) {
+    MPI_Comm_rank(params->comm, &rank);
+    if (rank == root) {
         sbufpool = mempool_create(params->count * params->nprocs, mpiperf_isflushcache);
         if (sbufpool == NULL) {
             return MPIPERF_FAILURE;
@@ -36,7 +36,7 @@ int bench_scatter_init(colltest_params_t *params)
     }
     rbufpool = mempool_create(params->count, mpiperf_isflushcache);
     if (rbufpool == NULL) {
-    	mempool_free(sbufpool);
+        mempool_free(sbufpool);
         return MPIPERF_FAILURE;
     }
     rbufsize = params->count * sizeof(char);
@@ -75,7 +75,7 @@ int measure_scatter_sync(colltest_params_t *params, double *time)
 
     if ((rc == MPI_SUCCESS) && (starttime > 0.0) && (endtime > 0.0)) {
         *time = endtime - starttime;
-    	return MEASURE_SUCCESS;
+        return MEASURE_SUCCESS;
     } else if (starttime < 0.0) {
         return MEASURE_STARTED_LATE;
     } else if (endtime < 0.0) {

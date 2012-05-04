@@ -15,8 +15,8 @@ int bench_ibarrier_init(nbctest_params_t *params);
 int bench_ibarrier_free();
 int bench_ibarrier_printinfo();
 int measure_ibarrier_blocking(nbctest_params_t *params,
-		                      nbctest_result_t *result);
+                              nbctest_result_t *result);
 int measure_ibarrier_overlap(nbctest_params_t *params,
-		                     nbctest_result_t *result);
+                             nbctest_result_t *result);
 
 #endif /* IBARRIER_H */

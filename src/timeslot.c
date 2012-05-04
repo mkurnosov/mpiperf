@@ -39,7 +39,7 @@ int timeslot_initialize_test(MPI_Comm comm)
 {
     int commsize;
 
-	/* Synchronize clocks */
+    /* Synchronize clocks */
     double synctime = hpctimer_wtime();
     mpigclock_sync(comm, mpiperf_master_rank, MPIGCLOCK_SYNC_LINEAR);
     synctime = hpctimer_wtime() - synctime;
@@ -48,7 +48,7 @@ int timeslot_initialize_test(MPI_Comm comm)
     logger_log("Clock synchronization time (commsize: %d, root: %d): %.6f sec.",
                commsize, mpiperf_master_rank, synctime);
     logger_log("Local clock offset (commsize: %d, root: %d): %.6f sec.",
-    		   commsize, mpiperf_master_rank, mpigclock_offset());
+               commsize, mpiperf_master_rank, mpigclock_offset());
 
     bcasttime = measure_bcast_double(comm) * TIMESLOT_BCAST_OVERHEAD;
     logger_log("MPI_Bcast time: %.6f sec.", bcasttime);
@@ -88,15 +88,15 @@ double timeslot_startsync()
     double starttime = 0.0;
 
     if (mpiperf_synctype == SYNC_TIME) {
-    	starttime = timeslot_stagestart + timeslot_len * (timeslot++);
-    	if ((timeslot_slotstart = hpctimer_wtime()) > starttime) {
-        	return TIMESLOT_TIME_INVALID;
-    	} else {
-        	while ((timeslot_slotstart = hpctimer_wtime()) < starttime) {
-            	/* Wait */ ;
-        	}
-    	}
-    	return timeslot_slotstart;
+        starttime = timeslot_stagestart + timeslot_len * (timeslot++);
+        if ((timeslot_slotstart = hpctimer_wtime()) > starttime) {
+            return TIMESLOT_TIME_INVALID;
+        } else {
+            while ((timeslot_slotstart = hpctimer_wtime()) < starttime) {
+                /* Wait */ ;
+            }
+        }
+        return timeslot_slotstart;
     }
     return hpctimer_wtime();
 }
@@ -109,7 +109,7 @@ double timeslot_stopsync()
 {
     if (mpiperf_synctype == SYNC_TIME) {
         timeslot_slotstop = hpctimer_wtime();
-    	return (timeslot_slotstop - timeslot_slotstart < timeslot_len) ?
+        return (timeslot_slotstop - timeslot_slotstart < timeslot_len) ?
                timeslot_slotstop : TIMESLOT_TIME_INVALID;
     }
     return hpctimer_wtime();

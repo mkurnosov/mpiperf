@@ -54,7 +54,7 @@ int bench_reduce_scatter_block_printinfo()
 int measure_reduce_scatter_block_sync(colltest_params_t *params, double *time)
 {
 #ifdef MPICH2
-	double starttime, endtime;
+    double starttime, endtime;
     int rc;
     
     starttime = timeslot_startsync();
@@ -65,7 +65,7 @@ int measure_reduce_scatter_block_sync(colltest_params_t *params, double *time)
 
     if ((rc == MPI_SUCCESS) && (starttime > 0.0) && (endtime > 0.0)) {
         *time = endtime - starttime;
-    	return MEASURE_SUCCESS;
+        return MEASURE_SUCCESS;
     } else if (starttime < 0.0) {
         return MEASURE_STARTED_LATE;
     } else if (endtime < 0.0) {

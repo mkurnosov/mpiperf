@@ -21,12 +21,12 @@ static int root = 0;
 
 int bench_igather_init(nbctest_params_t *params)
 {
-	int rank;
+    int rank;
 
-	rbufpool = NULL;
+    rbufpool = NULL;
     rbufsize = 0;
 
-	sbufpool = mempool_create(params->count, mpiperf_isflushcache);
+    sbufpool = mempool_create(params->count, mpiperf_isflushcache);
     if (sbufpool == NULL) {
         return MPIPERF_FAILURE;
     }
@@ -60,7 +60,7 @@ int bench_igather_printinfo()
 }
 
 int measure_igather_blocking(nbctest_params_t *params,
-		                     nbctest_result_t *result)
+                             nbctest_result_t *result)
 {
 #if MPICH2_NUMVERSION >= 10500002
     double starttime, endtime;
@@ -79,15 +79,15 @@ int measure_igather_blocking(nbctest_params_t *params,
     endtime = timeslot_stopsync();
 
     if ((rc == MPI_SUCCESS) && (starttime > 0.0) && (endtime > 0.0)) {
-    	result->totaltime = endtime - starttime;
-		return MEASURE_SUCCESS;
+        result->totaltime = endtime - starttime;
+        return MEASURE_SUCCESS;
     }
 #endif
     return MEASURE_FAILURE;
 }
 
 int measure_igather_overlap(nbctest_params_t *params,
-		                    nbctest_result_t *result)
+                            nbctest_result_t *result)
 
 {
 #if MPICH2_NUMVERSION >= 10500002
@@ -108,8 +108,8 @@ int measure_igather_overlap(nbctest_params_t *params,
     endtime = timeslot_stopsync();
 
     if ((rc == MPI_SUCCESS) && (starttime > 0.0) && (endtime > 0.0)) {
-    	result->totaltime = endtime - starttime;
-		return MEASURE_SUCCESS;
+        result->totaltime = endtime - starttime;
+        return MEASURE_SUCCESS;
     }
     return MEASURE_FAILURE;
 #endif

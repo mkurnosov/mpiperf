@@ -30,7 +30,7 @@ int bench_alltoallw_init(colltest_params_t *params)
 {
     int i;
 
-	types = malloc(sizeof(*types) * params->nprocs);
+    types = malloc(sizeof(*types) * params->nprocs);
     if (types == NULL) {
         goto errhandler;
     }
@@ -118,7 +118,7 @@ int measure_alltoallw_sync(colltest_params_t *params, double *time)
 
     if ((rc == MPI_SUCCESS) && (starttime > 0.0) && (endtime > 0.0)) {
         *time = endtime - starttime;
-    	return MEASURE_SUCCESS;
+        return MEASURE_SUCCESS;
     } else if (starttime < 0.0) {
         return MEASURE_STARTED_LATE;
     } else if (endtime < 0.0) {

@@ -57,13 +57,13 @@ int measure_allgather_sync(colltest_params_t *params, double *time)
     
     starttime = timeslot_startsync();
     rc = MPI_Allgather(mempool_alloc(sbufpool, sbufsize), params->count,
-    		           MPI_BYTE, mempool_alloc(rbufpool, rbufsize),
-    		           params->count, MPI_BYTE, params->comm);
+                       MPI_BYTE, mempool_alloc(rbufpool, rbufsize),
+                       params->count, MPI_BYTE, params->comm);
     endtime = timeslot_stopsync();
 
     if ((rc == MPI_SUCCESS) && (starttime > 0.0) && (endtime > 0.0)) {
         *time = endtime - starttime;
-    	return MEASURE_SUCCESS;
+        return MEASURE_SUCCESS;
     } else if (starttime < 0.0) {
         return MEASURE_STARTED_LATE;
     } else if (endtime < 0.0) {

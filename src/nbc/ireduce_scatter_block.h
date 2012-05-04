@@ -15,8 +15,8 @@ int bench_ireduce_scatter_block_init(nbctest_params_t *params);
 int bench_ireduce_scatter_block_free();
 int bench_ireduce_scatter_block_printinfo();
 int measure_ireduce_scatter_block_blocking(nbctest_params_t *params,
-		                                   nbctest_result_t *result);
+                                           nbctest_result_t *result);
 int measure_ireduce_scatter_block_overlap(nbctest_params_t *params,
-		                                  nbctest_result_t *result);
+                                          nbctest_result_t *result);
 
 #endif /* IREDUCE_SCATTER_BLOCK_H */

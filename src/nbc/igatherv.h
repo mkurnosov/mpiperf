@@ -15,8 +15,8 @@ int bench_igatherv_init(nbctest_params_t *params);
 int bench_igatherv_free();
 int bench_igatherv_printinfo();
 int measure_igatherv_blocking(nbctest_params_t *params,
-		                      nbctest_result_t *result);
+                              nbctest_result_t *result);
 int measure_igatherv_overlap(nbctest_params_t *params,
-		                     nbctest_result_t *result);
+                             nbctest_result_t *result);
 
 #endif /* IGATHERV_H */

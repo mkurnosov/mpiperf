@@ -33,16 +33,16 @@ int bench_ireduce_init(nbctest_params_t *params)
     sbufsize = params->count * sizeof(double);
 
     MPI_Comm_rank(params->comm, &rank);
-	if (rank == root) {
-	    rbufpool = mempool_create(params->count * sizeof(double),
-	    		                  mpiperf_isflushcache);
-    	if (rbufpool == NULL) {
-        	mempool_free(sbufpool);
-	        return MPIPERF_FAILURE;
-    	}
-	    rbufsize = params->count * sizeof(double);
-	}
-	return MPIPERF_SUCCESS;
+    if (rank == root) {
+        rbufpool = mempool_create(params->count * sizeof(double),
+                                  mpiperf_isflushcache);
+        if (rbufpool == NULL) {
+            mempool_free(sbufpool);
+            return MPIPERF_FAILURE;
+        }
+        rbufsize = params->count * sizeof(double);
+    }
+    return MPIPERF_SUCCESS;
 }
 
 int bench_ireduce_free()
@@ -61,7 +61,7 @@ int bench_ireduce_printinfo()
 }
 
 int measure_ireduce_blocking(nbctest_params_t *params,
-		                     nbctest_result_t *result)
+                             nbctest_result_t *result)
 {
 #if MPICH2_NUMVERSION >= 10500002
     double starttime, endtime;
@@ -80,15 +80,15 @@ int measure_ireduce_blocking(nbctest_params_t *params,
     endtime = timeslot_stopsync();
 
     if ((rc == MPI_SUCCESS) && (starttime > 0.0) && (endtime > 0.0)) {
-    	result->totaltime = endtime - starttime;
-		return MEASURE_SUCCESS;
+        result->totaltime = endtime - starttime;
+        return MEASURE_SUCCESS;
     }
 #endif
     return MEASURE_FAILURE;
 }
 
 int measure_ireduce_overlap(nbctest_params_t *params,
-		                    nbctest_result_t *result)
+                            nbctest_result_t *result)
 
 {
 #if MPICH2_NUMVERSION >= 10500002
@@ -109,8 +109,8 @@ int measure_ireduce_overlap(nbctest_params_t *params,
     endtime = timeslot_stopsync();
 
     if ((rc == MPI_SUCCESS) && (starttime > 0.0) && (endtime > 0.0)) {
-    	result->totaltime = endtime - starttime;
-		return MEASURE_SUCCESS;
+        result->totaltime = endtime - starttime;
+        return MEASURE_SUCCESS;
     }
     return MEASURE_FAILURE;
 #endif

@@ -29,7 +29,7 @@ int bench_send_init(pt2pttest_params_t *params)
     if (buf == NULL) {
         return MPIPERF_FAILURE;
     }
-	MPI_Comm_rank(params->comm, &rank);
+    MPI_Comm_rank(params->comm, &rank);
     return MPIPERF_SUCCESS;
 }
 
@@ -59,16 +59,16 @@ int measure_send_sync(pt2pttest_params_t *params, double *time)
     starttime = timeslot_startsync();
     if (rank == 0) {
         rc = MPI_Send(mempool_alloc(buf, bufsize), params->count, MPI_BYTE, 1, 0,
-        		      params->comm);
+                      params->comm);
     } else if (rank == 1) {
         rc = MPI_Recv(mempool_alloc(buf, bufsize), params->count, MPI_BYTE, 0, 0,
-        		      params->comm, MPI_STATUS_IGNORE);
+                      params->comm, MPI_STATUS_IGNORE);
     }
     endtime = timeslot_stopsync();
 
     if ((rc == MPI_SUCCESS) && (starttime > 0.0) && (endtime > 0.0)) {
         *time = endtime - starttime;
-    	return MEASURE_SUCCESS;
+        return MEASURE_SUCCESS;
     } else if (starttime < 0.0) {
         return MEASURE_STARTED_LATE;
     } else if (endtime < 0.0) {

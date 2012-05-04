@@ -51,12 +51,12 @@ int measure_bcast_sync(colltest_params_t *params, double *time)
     
     starttime = timeslot_startsync();
     rc = MPI_Bcast(mempool_alloc(bufpool, bufsize), params->count, MPI_BYTE,
-    		       root, params->comm);
+                   root, params->comm);
     endtime = timeslot_stopsync();
 
     if ((rc == MPI_SUCCESS) && (starttime > 0.0) && (endtime > 0.0)) {
         *time = endtime - starttime;
-    	return MEASURE_SUCCESS;
+        return MEASURE_SUCCESS;
     } else if (starttime < 0.0) {
         return MEASURE_STARTED_LATE;
     } else if (endtime < 0.0) {

@@ -15,8 +15,8 @@ int bench_igather_init(nbctest_params_t *params);
 int bench_igather_free();
 int bench_igather_printinfo();
 int measure_igather_blocking(nbctest_params_t *params,
-		                     nbctest_result_t *result);
+                             nbctest_result_t *result);
 int measure_igather_overlap(nbctest_params_t *params,
-		                    nbctest_result_t *result);
+                            nbctest_result_t *result);
 
 #endif /* IGATHER_H */

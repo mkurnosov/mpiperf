@@ -28,14 +28,14 @@ int bench_scatterv_init(colltest_params_t *params)
 {
     int rank, i;
 
-	sbufpool = NULL;
-	sbufsize = 0;
+    sbufpool = NULL;
+    sbufsize = 0;
     sendcounts = NULL;
-	displs = NULL;
+    displs = NULL;
 
     MPI_Comm_rank(params->comm, &rank);
     if (rank == root) {
-    	sendcounts = malloc(sizeof(*sendcounts) * params->nprocs);
+        sendcounts = malloc(sizeof(*sendcounts) * params->nprocs);
         displs = malloc(sizeof(*displs) * params->nprocs);
         if (sendcounts == NULL || displs == NULL) {
             goto errhandler;
@@ -107,7 +107,7 @@ int measure_scatterv_sync(colltest_params_t *params, double *time)
 
     if ((rc == MPI_SUCCESS) && (starttime > 0.0) && (endtime > 0.0)) {
         *time = endtime - starttime;
-    	return MEASURE_SUCCESS;
+        return MEASURE_SUCCESS;
     } else if (starttime < 0.0) {
         return MEASURE_STARTED_LATE;
     } else if (endtime < 0.0) {

@@ -15,8 +15,8 @@ int bench_ialltoallw_init(nbctest_params_t *params);
 int bench_ialltoallw_free();
 int bench_ialltoallw_printinfo();
 int measure_ialltoallw_blocking(nbctest_params_t *params,
-		                        nbctest_result_t *result);
+                                nbctest_result_t *result);
 int measure_ialltoallw_overlap(nbctest_params_t *params,
-		                       nbctest_result_t *result);
+                               nbctest_result_t *result);
 
 #endif /* IALLTOALLW_H */

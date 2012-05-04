@@ -41,7 +41,7 @@ int bench_gatherv_init(colltest_params_t *params)
 
     MPI_Comm_rank(params->comm, &rank);
     if (rank == root) {
-    	recvcounts = malloc(sizeof(*recvcounts) * params->nprocs);
+        recvcounts = malloc(sizeof(*recvcounts) * params->nprocs);
         displs = malloc(sizeof(*displs) * params->nprocs);
         if (recvcounts == NULL || displs == NULL) {
             goto errhandler;
@@ -105,7 +105,7 @@ int measure_gatherv_sync(colltest_params_t *params, double *time)
 
     if ((rc == MPI_SUCCESS) && (starttime > 0.0) && (endtime > 0.0)) {
         *time = endtime - starttime;
-    	return MEASURE_SUCCESS;
+        return MEASURE_SUCCESS;
     } else if (starttime < 0.0) {
         return MEASURE_STARTED_LATE;
     } else if (endtime < 0.0) {

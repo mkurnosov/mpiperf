@@ -18,7 +18,7 @@ static int rank;
 int bench_waitpattern_init(colltest_params_t *params)
 {
     MPI_Comm_rank(params->comm, &rank);
-	return MPIPERF_SUCCESS;
+    return MPIPERF_SUCCESS;
 }
 
 /* bench_waitpatternup_free: */
@@ -52,7 +52,7 @@ int measure_waitpatternup_sync(colltest_params_t *params, double *time)
 
     if ((starttime > 0.0) && (endtime > 0.0)) {
         *time = endtime - starttime;
-    	return MEASURE_SUCCESS;
+        return MEASURE_SUCCESS;
     } else if (starttime < 0.0) {
         return MEASURE_STARTED_LATE;
     } else if (endtime < 0.0) {
@@ -86,7 +86,7 @@ int measure_waitpatterndown_sync(colltest_params_t *params, double *time)
 
     if ((starttime > 0.0) && (endtime > 0.0)) {
         *time = endtime - starttime;
-    	return MEASURE_SUCCESS;
+        return MEASURE_SUCCESS;
     } else if (starttime < 0.0) {
         return MEASURE_STARTED_LATE;
     } else if (endtime < 0.0) {
@@ -116,7 +116,7 @@ int measure_waitpatternnull_sync(colltest_params_t *params, double *time)
 
     if ((starttime > 0.0) && (endtime > 0.0)) {
         *time = endtime - starttime;
-    	return MEASURE_SUCCESS;
+        return MEASURE_SUCCESS;
     } else if (starttime < 0.0) {
         return MEASURE_STARTED_LATE;
     } else if (endtime < 0.0) {

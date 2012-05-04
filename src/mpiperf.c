@@ -115,12 +115,12 @@ int main(int argc, char **argv)
     }
 
     mpiperf_initialize();
-	if (mpiperf_collbench) {
-		run_collbench(mpiperf_collbench);
-	} else if (mpiperf_pt2ptbench) {
-    	run_pt2ptbench(mpiperf_pt2ptbench);
+    if (mpiperf_collbench) {
+        run_collbench(mpiperf_collbench);
+    } else if (mpiperf_pt2ptbench) {
+        run_pt2ptbench(mpiperf_pt2ptbench);
     } else if (mpiperf_nbcbench) {
-   		run_nbcbench(mpiperf_nbcbench);
+        run_nbcbench(mpiperf_nbcbench);
     }
     mpiperf_finalize();
 
@@ -147,8 +147,8 @@ void mpiperf_initialize()
     }
 
     if (mpiperf_perprocreport) {
-		if ( (mpiperf_repstream = fopen(mpiperf_repfile, "w")) == NULL)
-	        exit_error("Can't open per process report file: %s", optarg);
+        if ( (mpiperf_repstream = fopen(mpiperf_repfile, "w")) == NULL)
+            exit_error("Can't open per process report file: %s", optarg);
     }
 }
 
@@ -156,9 +156,9 @@ void mpiperf_initialize()
 void mpiperf_finalize()
 {
     if (mpiperf_perprocreport)
-		fclose(mpiperf_repstream);
+        fclose(mpiperf_repstream);
 
-	logger_finalize();
+    logger_finalize();
     hpctimer_finalize();
 }
 
@@ -250,7 +250,7 @@ static int parse_options(int argc, char **argv)
 {
     int opt, checktimer = 0;
 
-	while ( (opt = getopt(argc, argv, "p:P:x:X:g:G:s:S:e:E:r:R:l:z:w:t:o:c:badTjmqh")) != -1) {
+    while ( (opt = getopt(argc, argv, "p:P:x:X:g:G:s:S:e:E:r:R:l:z:w:t:o:c:badTjmqh")) != -1) {
         switch (opt) {
         case 'p':
             mpiperf_nprocs_min = atoi(optarg);
@@ -357,7 +357,7 @@ static int parse_options(int argc, char **argv)
             }
             exit_success();
         case 'j':
-        	checktimer = 1;
+            checktimer = 1;
             break;
         case 'm':
             mpiperf_logmaster_only = 1;
@@ -383,53 +383,53 @@ static int parse_options(int argc, char **argv)
         }
     }
 
-	if (mpiperf_commsize < 2) {
+    if (mpiperf_commsize < 2) {
         MPI_Finalize();
         fprintf(stderr, "Number of processes is too small: %d\n", mpiperf_commsize);
         exit(EXIT_FAILURE);
-	}
+    }
 
-	if (mpiperf_nprocs_min < 1 || mpiperf_nprocs_max > mpiperf_commsize ||
-		mpiperf_nprocs_min > mpiperf_nprocs_max)
-	{
+    if (mpiperf_nprocs_min < 1 || mpiperf_nprocs_max > mpiperf_commsize ||
+        mpiperf_nprocs_min > mpiperf_nprocs_max)
+    {
         if (IS_MASTER_RANK) {
             exit_error("Incorrect number of processes");
         }
     }
 
-	if (mpiperf_count_min < 0 || mpiperf_count_max < 0 ||
-		mpiperf_count_min > mpiperf_count_max)
-	{
+    if (mpiperf_count_min < 0 || mpiperf_count_max < 0 ||
+        mpiperf_count_min > mpiperf_count_max)
+    {
         if (IS_MASTER_RANK) {
             exit_error("Incorrect count (data size)");
         }
     }
 
-	if (mpiperf_nprocs_step == 0 ||  mpiperf_count_step == 0) {
-	    exit_error("Incorrect step");
-	}
+    if (mpiperf_nprocs_step == 0 ||  mpiperf_count_step == 0) {
+        exit_error("Incorrect step");
+    }
 
-	if (mpiperf_nprocs_step_type == STEP_TYPE_MUL) {
-		if (mpiperf_nprocs_step < 2 ) {
+    if (mpiperf_nprocs_step_type == STEP_TYPE_MUL) {
+        if (mpiperf_nprocs_step < 2 ) {
             exit_error("Incorrect process step: %d", mpiperf_nprocs_step);
-		}
-	}
+        }
+    }
 
-	if (mpiperf_count_step_type == STEP_TYPE_MUL) {
-		if (mpiperf_count_step < 2 ) {
+    if (mpiperf_count_step_type == STEP_TYPE_MUL) {
+        if (mpiperf_count_step < 2 ) {
             exit_error("Incorrect count step: %d", mpiperf_count_step);
-		}
-	}
+        }
+    }
 
-	if (mpiperf_count_max == 0 && mpiperf_count_step_type == STEP_TYPE_MUL) {
-		mpiperf_count_step_type = STEP_TYPE_INC;
-		mpiperf_count_step = 1;
-	}
+    if (mpiperf_count_max == 0 && mpiperf_count_step_type == STEP_TYPE_MUL) {
+        mpiperf_count_step_type = STEP_TYPE_INC;
+        mpiperf_count_step = 1;
+    }
 
-	if (checktimer) {
-		mpiperf_checktimer();
-    	exit_success();
-	}
+    if (checktimer) {
+        mpiperf_checktimer();
+        exit_success();
+    }
 
     if (optind >= argc) {
         if (IS_MASTER_RANK) {
@@ -442,11 +442,11 @@ static int parse_options(int argc, char **argv)
     /* Lookup benchmark by name */
     mpiperf_benchname = argv[optind];
     if ( (mpiperf_collbench = lookup_collbench(argv[optind])))
-    	return MPIPERF_SUCCESS;
+        return MPIPERF_SUCCESS;
     else if ( (mpiperf_pt2ptbench = lookup_pt2ptbench(argv[optind])))
-    	return MPIPERF_SUCCESS;
+        return MPIPERF_SUCCESS;
     else if ( (mpiperf_nbcbench = lookup_nbcbench(argv[optind])))
-    	return MPIPERF_SUCCESS;
+        return MPIPERF_SUCCESS;
     else {
         if (IS_MASTER_RANK) {
             print_error("Unknown benchmark name");
@@ -458,44 +458,44 @@ static int parse_options(int argc, char **argv)
 /* set_default_options: Setups default values for options */
 static void set_default_options()
 {
-	mpiperf_progname = "mpiperf";
+    mpiperf_progname = "mpiperf";
     MPI_Comm_size(MPI_COMM_WORLD, &mpiperf_commsize);
     MPI_Comm_rank(MPI_COMM_WORLD, &mpiperf_rank);
-	mpiperf_master_rank = 0;
+    mpiperf_master_rank = 0;
 
-	mpiperf_nprocs_min = mpiperf_commsize;		/* -p */
-	mpiperf_nprocs_max = mpiperf_commsize;		/* -P */
-	mpiperf_nprocs_step_type = STEP_TYPE_MUL;	/* -G */
-	mpiperf_nprocs_step = 2;                    /* -G value */
+    mpiperf_nprocs_min = mpiperf_commsize;      /* -p */
+    mpiperf_nprocs_max = mpiperf_commsize;      /* -P */
+    mpiperf_nprocs_step_type = STEP_TYPE_MUL;   /* -G */
+    mpiperf_nprocs_step = 2;                    /* -G value */
 
-	mpiperf_count_min = 1;						/* -x */
-	mpiperf_count_max = 128;					/* -X */
-	mpiperf_count_step_type = STEP_TYPE_MUL;	/* -S */
-	mpiperf_count_step = 2;						/* -S value */
+    mpiperf_count_min = 1;                      /* -x */
+    mpiperf_count_max = 128;                    /* -X */
+    mpiperf_count_step_type = STEP_TYPE_MUL;    /* -S */
+    mpiperf_count_step = 2;                     /* -S value */
 
-	mpiperf_perprocreport = 0;
-	mpiperf_repfile = NULL;                     /* -o */
-	mpiperf_repstream = NULL;
+    mpiperf_perprocreport = 0;
+    mpiperf_repfile = NULL;                     /* -o */
+    mpiperf_repstream = NULL;
 
-	mpiperf_isflushcache = 0;                   /* -c Cache defeat flag */
-	mpiperf_statanalysis = 1;                   /* -a Stat. analysis */
-	mpiperf_timescale = TIMESCALE_USEC;         /* -w */
-	mpiperf_synctype = SYNC_TIME;               /* -z Sync. method */
-	mpiperf_timername = "MPI_Wtime";            /* -t Timer */
+    mpiperf_isflushcache = 0;                   /* -c Cache defeat flag */
+    mpiperf_statanalysis = 1;                   /* -a Stat. analysis */
+    mpiperf_timescale = TIMESCALE_USEC;         /* -w */
+    mpiperf_synctype = SYNC_TIME;               /* -z Sync. method */
+    mpiperf_timername = "MPI_Wtime";            /* -t Timer */
 
-	mpiperf_test_exit_cond = TEST_EXIT_COND_NRUNS;	/* -E */
-	mpiperf_nmeasures_max = 30;  /* -E Maximal number of successful measurements */
-	mpiperf_rse_max = 0.05;      /* -e Maximal value of relative standard error */
-	mpiperf_nruns_min = 10;      /* -r Minimal number of runs per test */
-	mpiperf_nruns_max = 100;     /* -R Maximal number of runs per test */
+    mpiperf_test_exit_cond = TEST_EXIT_COND_NRUNS;  /* -E */
+    mpiperf_nmeasures_max = 30;  /* -E Maximal number of successful measurements */
+    mpiperf_rse_max = 0.05;      /* -e Maximal value of relative standard error */
+    mpiperf_nruns_min = 10;      /* -r Minimal number of runs per test */
+    mpiperf_nruns_max = 100;     /* -R Maximal number of runs per test */
 
-	mpiperf_logfile = NULL;      /* -l Log filename */
-	mpiperf_logmaster_only = 0;  /* -m Log by master process only */
+    mpiperf_logfile = NULL;      /* -l Log filename */
+    mpiperf_logmaster_only = 0;  /* -m Log by master process only */
 
-	mpiperf_confidence_level_type = STAT_CONFIDENCE_LEVEL_95;
-	mpiperf_confidence_level = 95;
+    mpiperf_confidence_level_type = STAT_CONFIDENCE_LEVEL_95;
+    mpiperf_confidence_level = 95;
 
-	mpiperf_nbcbench_mode = NBCBENCH_OVERLAP;
-	mpiperf_comptime_niters = 10;
-	mpiperf_benchname = NULL;
+    mpiperf_nbcbench_mode = NBCBENCH_OVERLAP;
+    mpiperf_comptime_niters = 10;
+    mpiperf_benchname = NULL;
 }

@@ -44,7 +44,7 @@ int report_write_header()
         printf("# Minimal number of runs: %d\n", mpiperf_nruns_min);
         printf("# Maximal number of runs: %d\n", mpiperf_nruns_max);
         printf("# Statistical analysis of data (removing outliers): %s\n",
-        	   mpiperf_statanalysis ? "on" : "off");
+               mpiperf_statanalysis ? "on" : "off");
         printf("# Compute time iterations: %d\n", mpiperf_comptime_niters);
         printf("# Cache defeat: %s\n", mpiperf_isflushcache ? "on" : "off");
         printf("# Timer: %s\n", mpiperf_timername);
@@ -59,11 +59,11 @@ int report_write_header()
             printf("# Synchronization method: nosync\n");
         }
         if (mpiperf_perprocreport) {
-        	printf("# Per process report file: %s\n", mpiperf_repfile);
+            printf("# Per process report file: %s\n", mpiperf_repfile);
         }
         if (mpiperf_logfile) {
-        	printf("# Log file: %s\n", mpiperf_logfile);
-        	printf("# Log master only: %s\n", mpiperf_logmaster_only ? "on" : "off");
+            printf("# Log file: %s\n", mpiperf_logfile);
+            printf("# Log master only: %s\n", mpiperf_logmaster_only ? "on" : "off");
         }
 
         printf("# Master process: %d\n", mpiperf_master_rank);

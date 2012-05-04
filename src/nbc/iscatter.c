@@ -21,13 +21,13 @@ static int root = 0;
 
 int bench_iscatter_init(nbctest_params_t *params)
 {
-	int rank;
+    int rank;
 
-	sbufpool = NULL;
-	sbufsize = 0;
+    sbufpool = NULL;
+    sbufsize = 0;
 
-	MPI_Comm_rank(params->comm, &rank);
-	if (rank == root) {
+    MPI_Comm_rank(params->comm, &rank);
+    if (rank == root) {
         sbufpool = mempool_create(params->count * params->nprocs, mpiperf_isflushcache);
         if (sbufpool == NULL) {
             return MPIPERF_FAILURE;
@@ -36,7 +36,7 @@ int bench_iscatter_init(nbctest_params_t *params)
     }
     rbufpool = mempool_create(params->count, mpiperf_isflushcache);
     if (rbufpool == NULL) {
-    	mempool_free(sbufpool);
+        mempool_free(sbufpool);
         return MPIPERF_FAILURE;
     }
     rbufsize = params->count * sizeof(char);
@@ -59,7 +59,7 @@ int bench_iscatter_printinfo()
 }
 
 int measure_iscatter_blocking(nbctest_params_t *params,
-		                      nbctest_result_t *result)
+                              nbctest_result_t *result)
 {
 #if MPICH2_NUMVERSION >= 10500002
     double starttime, endtime;
@@ -78,15 +78,15 @@ int measure_iscatter_blocking(nbctest_params_t *params,
     endtime = timeslot_stopsync();
 
     if ((rc == MPI_SUCCESS) && (starttime > 0.0) && (endtime > 0.0)) {
-    	result->totaltime = endtime - starttime;
-		return MEASURE_SUCCESS;
+        result->totaltime = endtime - starttime;
+        return MEASURE_SUCCESS;
     }
 #endif
     return MEASURE_FAILURE;
 }
 
 int measure_iscatter_overlap(nbctest_params_t *params,
-		                     nbctest_result_t *result)
+                             nbctest_result_t *result)
 
 {
 #if MPICH2_NUMVERSION >= 10500002
@@ -107,8 +107,8 @@ int measure_iscatter_overlap(nbctest_params_t *params,
     endtime = timeslot_stopsync();
 
     if ((rc == MPI_SUCCESS) && (starttime > 0.0) && (endtime > 0.0)) {
-    	result->totaltime = endtime - starttime;
-		return MEASURE_SUCCESS;
+        result->totaltime = endtime - starttime;
+        return MEASURE_SUCCESS;
     }
     return MEASURE_FAILURE;
 #endif

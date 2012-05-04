@@ -28,52 +28,52 @@
 int run_collbench(collbench_t *bench)
 {
     double benchtime;
-	colltest_params_t params;
+    colltest_params_t params;
 
-	benchtime = hpctimer_wtime();
+    benchtime = hpctimer_wtime();
     timeslot_initialize();
 
-	report_write_header();
+    report_write_header();
     report_write_collbench_header(bench);
     if (mpiperf_perprocreport)
-    	report_write_collbench_procstat_header(bench);
+        report_write_collbench_procstat_header(bench);
 
-	/* For each communicator size */
-	for (params.nprocs = mpiperf_nprocs_min;
-		 params.nprocs <= mpiperf_nprocs_max; )
-	{
-		params.comm = createcomm(MPI_COMM_WORLD, params.nprocs);
+    /* For each communicator size */
+    for (params.nprocs = mpiperf_nprocs_min;
+         params.nprocs <= mpiperf_nprocs_max; )
+    {
+        params.comm = createcomm(MPI_COMM_WORLD, params.nprocs);
 
-		/* For each data size (count) */
-		for (params.count = mpiperf_count_min;
-			 params.count <= mpiperf_count_max; )
-		{
-			/* Test collective operation for given nprocs and count */
-			run_collbench_test(bench, &params);
+        /* For each data size (count) */
+        for (params.count = mpiperf_count_min;
+             params.count <= mpiperf_count_max; )
+        {
+            /* Test collective operation for given nprocs and count */
+            run_collbench_test(bench, &params);
 
-			if (mpiperf_count_step_type == STEP_TYPE_MUL) {
-				params.count *= mpiperf_count_step;
-			} else {
-				params.count += mpiperf_count_step;
-			}
-		}
-		if (params.comm != MPI_COMM_NULL)
-			MPI_Comm_free(&params.comm);
+            if (mpiperf_count_step_type == STEP_TYPE_MUL) {
+                params.count *= mpiperf_count_step;
+            } else {
+                params.count += mpiperf_count_step;
+            }
+        }
+        if (params.comm != MPI_COMM_NULL)
+            MPI_Comm_free(&params.comm);
 
-		if (mpiperf_nprocs_step_type == STEP_TYPE_MUL) {
-			params.nprocs *= mpiperf_nprocs_step;
-		} else {
-			params.nprocs += mpiperf_nprocs_step;
-		}
-	}
+        if (mpiperf_nprocs_step_type == STEP_TYPE_MUL) {
+            params.nprocs *= mpiperf_nprocs_step;
+        } else {
+            params.nprocs += mpiperf_nprocs_step;
+        }
+    }
 
-	timeslot_finalize();
+    timeslot_finalize();
     MPI_Barrier(MPI_COMM_WORLD);
     benchtime = hpctimer_wtime() - benchtime;
     if (IS_MASTER_RANK) {
         report_printf("# Elapsed time: %.6f sec.\n", benchtime);
     }
-	return MPIPERF_SUCCESS;
+    return MPIPERF_SUCCESS;
 }
 
 /*
@@ -88,29 +88,29 @@ int run_collbench_test(collbench_t *bench, colltest_params_t *params)
 
     MPI_Barrier(MPI_COMM_WORLD);
     logger_log("Test (nprocs = %d, count = %d) is started",
-    		   params->nprocs, params->count);
+               params->nprocs, params->count);
 
     if (params->comm != MPI_COMM_NULL) {
-		/* This process participates in measures */
-    	if (mpiperf_perprocreport)
-	       	procstat = stat_sample_create();
+        /* This process participates in measures */
+        if (mpiperf_perprocreport)
+            procstat = stat_sample_create();
 
         if (mpiperf_synctype == SYNC_TIME) {
-        	run_collbench_test_synctime(bench, params, &exectime, &nruns,
-        			                    &ncorrectruns, procstat);
-        	report_write_colltest_synctime(bench, params, exectime, nruns,
-        			                       ncorrectruns);
-    		if (mpiperf_perprocreport)
-        		report_write_collbench_procstat_synctime(bench, params, procstat);
+            run_collbench_test_synctime(bench, params, &exectime, &nruns,
+                                        &ncorrectruns, procstat);
+            report_write_colltest_synctime(bench, params, exectime, nruns,
+                                           ncorrectruns);
+            if (mpiperf_perprocreport)
+                report_write_collbench_procstat_synctime(bench, params, procstat);
         } else {
-			run_collbench_test_nosync(bench, params, &time, &nruns, procstat);
+            run_collbench_test_nosync(bench, params, &time, &nruns, procstat);
             report_write_colltest_nosync(bench, params, time, nruns);
-    		if (mpiperf_perprocreport)
-	    		report_write_collbench_procstat_nosync(bench, params, procstat);
+            if (mpiperf_perprocreport)
+                report_write_collbench_procstat_nosync(bench, params, procstat);
         }
 
-    	if (mpiperf_perprocreport)
-        	stat_sample_free(procstat);
+        if (mpiperf_perprocreport)
+            stat_sample_free(procstat);
         free(exectime);
     }
 
@@ -128,8 +128,8 @@ int run_collbench_test(collbench_t *bench, colltest_params_t *params)
  *     MPI Operations // In Proc. of PVM/MPI, 2002, pp. 271-279.
  */
 int run_collbench_test_synctime(collbench_t *bench, colltest_params_t *params,
-		                        double **exectime, int *nmeasurements,
-		                        int *ncorrect_measurements, stat_sample_t *procstat)
+                                double **exectime, int *nmeasurements,
+                                int *ncorrect_measurements, stat_sample_t *procstat)
 {
     int i, stage, stage_nruns, nruns, ncorrectruns, exectime_size, nerrors;
     double *stage_exectime = NULL, *exectime_reduced = NULL;
@@ -147,21 +147,21 @@ int run_collbench_test_synctime(collbench_t *bench, colltest_params_t *params,
 
     stage_nruns = TEST_STAGE_NRUNS_INIT;
     stage_exectime = xrealloc(stage_exectime, sizeof(*stage_exectime) *
-    		                  TEST_STAGE_NRUNS);
+                              TEST_STAGE_NRUNS);
     stagerc = xrealloc(stagerc, sizeof(*stagerc) * TEST_STAGE_NRUNS);
     stagerc_reduced = xrealloc(stagerc_reduced, sizeof(*stagerc_reduced) *
-    		                   TEST_STAGE_NRUNS);
+                               TEST_STAGE_NRUNS);
     exectime_reduced = xrealloc(exectime_reduced, sizeof(*exectime_reduced) *
-    		                    TEST_STAGE_NRUNS);
+                                TEST_STAGE_NRUNS);
 
-	if (bench->init)
-    	bench->init(params);
+    if (bench->init)
+        bench->init(params);
 
-	nruns = 0;
-	ncorrectruns = 0;
+    nruns = 0;
+    ncorrectruns = 0;
 
-	slotlen = 0.0;
-	timeslot_initialize_test(params->comm);
+    slotlen = 0.0;
+    timeslot_initialize_test(params->comm);
 
     for (stage = -1; ; stage++) {
 
@@ -201,20 +201,20 @@ int run_collbench_test_synctime(collbench_t *bench, colltest_params_t *params,
 
         /* Allocate memory for stage results */
         if (exectime_size < (ncorrectruns + stage_nruns)) {
-	        exectime_size *= TEST_REALLOC_GROWSTEP;
+            exectime_size *= TEST_REALLOC_GROWSTEP;
             *exectime = xrealloc(*exectime, sizeof(**exectime) * exectime_size);
         }
 
         nerrors = 0;
         for (i = 0; i < stage_nruns; i++) {
             if (stagerc_reduced[i] == MEASURE_SUCCESS) {
-            	/* Add result to global list */
+                /* Add result to global list */
                 (*exectime)[ncorrectruns++] = exectime_reduced[i];
                 stat_sample_add(timestat, exectime_reduced[i]);
 
                 if (procstat) {
-                	/* Add to perprocess report */
-                	stat_sample_add(procstat, stage_exectime[i]);
+                    /* Add to perprocess report */
+                    stat_sample_add(procstat, stage_exectime[i]);
                 }
                 logger_log("Measured time (stage %d, run %d): %.6f",
                            stage, i, stage_exectime[i]);
@@ -262,7 +262,7 @@ int run_collbench_test_synctime(collbench_t *bench, colltest_params_t *params,
     *ncorrect_measurements = ncorrectruns;
 
     if (bench->free)
-    	bench->free();
+        bench->free();
 
     free(stage_exectime);
     free(stagerc);
@@ -280,24 +280,24 @@ int run_collbench_test_synctime(collbench_t *bench, colltest_params_t *params,
  * This test implements pipelined measurements (without synchronization of runs).
  */
 int run_collbench_test_nosync(collbench_t *bench, colltest_params_t *params,
-		                      double *exectime, int *nmeasurements,
-		                      stat_sample_t *procstat)
+                              double *exectime, int *nmeasurements,
+                              stat_sample_t *procstat)
 {
-	double t, time;
-	int i;
+    double t, time;
+    int i;
 
-	if (bench->init)
-    	bench->init(params);
+    if (bench->init)
+        bench->init(params);
 
     /* Warmup */
-	bench->collop(params, &time);
+    bench->collop(params, &time);
     MPI_Barrier(params->comm);
 
-	/* Run measurements */
+    /* Run measurements */
     mpiperf_is_measure_started = 1;
     t = hpctimer_wtime();
     for (i = 0; i < mpiperf_nruns_max; i++) {
-    	bench->collop(params, &time);
+        bench->collop(params, &time);
     }
     t = (hpctimer_wtime() - t) / mpiperf_nruns_max;
     mpiperf_is_measure_started = 0;
@@ -305,7 +305,7 @@ int run_collbench_test_nosync(collbench_t *bench, colltest_params_t *params,
     MPI_Allreduce(&t, exectime, 1, MPI_DOUBLE, MPI_MAX, params->comm);
 
     if (procstat)
-		stat_sample_add(procstat, t);
+        stat_sample_add(procstat, t);
 
     *nmeasurements = mpiperf_nruns_max;
 
@@ -323,7 +323,7 @@ void print_collbench_info()
     printf("=== MPI 2.2 Collective operations ===\n");
     for (i = 0; i < NELEMS(collbenchtab); i++) {
         if (collbenchtab[i].printinfo) {
-        	collbenchtab[i].printinfo(&collbenchtab[i]);
+            collbenchtab[i].printinfo(&collbenchtab[i]);
         }
     }
 }
@@ -361,43 +361,43 @@ int report_write_collbench_header(collbench_t *bench)
         printf("#   CI UB - upper bound of confidence interval: Mean + Err\n");
         printf("#   RelErr - relative error of measurements: Err / Mean\n");
 
-    	if (mpiperf_synctype == SYNC_TIME) {
-        	printf("#\n");
-        	printf("# Value of Mean are computed as\n");
-        	printf("# mean_of_runs(max_of_all_procs(t[0][j], ..., t[Procs - 1][j])),\n");
-        	printf("# where t[i][j] is a time of process i at measure j = 1, 2, ..., CRuns\n");
+        if (mpiperf_synctype == SYNC_TIME) {
+            printf("#\n");
+            printf("# Value of Mean are computed as\n");
+            printf("# mean_of_runs(max_of_all_procs(t[0][j], ..., t[Procs - 1][j])),\n");
+            printf("# where t[i][j] is a time of process i at measure j = 1, 2, ..., CRuns\n");
             printf("#\n");
             printf("# ------------------------------------------------------------------\n");
             printf("# Benchmark: %s\n", bench->name);
             printf("# Confidence level (CL): %d%%\n", mpiperf_confidence_level);
             printf("# ------------------------------------------------------------------\n");
             if (mpiperf_timescale == TIMESCALE_SEC) {
-            	printf("# [Procs] [Count]     [TRuns] [CRuns] [FRuns] [Mean]       [RSE]      [StdErr]     [Min]        [Max]        [Err]        [CI LB]      [CI UB]      [RelErr]\n");
+                printf("# [Procs] [Count]     [TRuns] [CRuns] [FRuns] [Mean]       [RSE]      [StdErr]     [Min]        [Max]        [Err]        [CI LB]      [CI UB]      [RelErr]\n");
             } else {
                 /* usec */
                 printf("# [Procs] [Count]     [TRuns] [CRuns] [FRuns] [Mean]         [RSE]      [StdErr]       [Min]          [Max]          [Err]          [CI LB]        [CI UB]        [RelErr]\n");
             }
             printf("#\n");
-    	} else {
-			printf("#\n");
-    	    printf("# ------------------------------------------------------------------\n");
-    	    printf("# Benchmark: %s\n", bench->name);
+        } else {
+            printf("#\n");
+            printf("# ------------------------------------------------------------------\n");
+            printf("# Benchmark: %s\n", bench->name);
             printf("# Pipelined measurements\n");
-    	    printf("# ------------------------------------------------------------------\n");
-    	    if (mpiperf_timescale == TIMESCALE_SEC) {
-    	    	printf("# [Procs] [Count]     [TRuns] [Mean]\n");
-    	    } else {
-    	    	/* usec */
-    	        printf("# [Procs] [Count]     [TRuns] [Mean]\n");
-    	    }
-    	    printf("#\n");
-    	}
+            printf("# ------------------------------------------------------------------\n");
+            if (mpiperf_timescale == TIMESCALE_SEC) {
+                printf("# [Procs] [Count]     [TRuns] [Mean]\n");
+            } else {
+                /* usec */
+                printf("# [Procs] [Count]     [TRuns] [Mean]\n");
+            }
+            printf("#\n");
+        }
     }
     return MPIPERF_SUCCESS;
 }
 
 int report_write_colltest_synctime(collbench_t *bench, colltest_params_t *params,
-		                           double *exectime, int nruns, int ncorrectruns)
+                                   double *exectime, int nruns, int ncorrectruns)
 {
     double exectime_mean, exectime_stderr, exectime_rse, exectime_min,
            exectime_max, exectime_errrel;
@@ -409,12 +409,12 @@ int report_write_colltest_synctime(collbench_t *bench, colltest_params_t *params
 
     if (mpiperf_timescale == TIMESCALE_SEC) {
         fmt = "  %-7d %-11d %-7d %-7d %-7d %-12.6f %-10.2f %-12.6f %-12.6f "
-        	  "%-12.6f %-12.6f %-12.6f %-12.6f %-10.2f\n";
+              "%-12.6f %-12.6f %-12.6f %-12.6f %-10.2f\n";
         timescale = 1.0;
     } else {
         /* usec */
         fmt = "  %-7d %-11d %-7d %-7d %-7d %-14.2f %-10.2f %-14.2f %-14.2f "
-        	"%-14.2f %-14.2f %-14.2f %-14.2f %-10.2f\n";
+            "%-14.2f %-14.2f %-14.2f %-14.2f %-10.2f\n";
         timescale = 1E6;
     }
 
@@ -465,7 +465,7 @@ int report_write_colltest_synctime(collbench_t *bench, colltest_params_t *params
 }
 
 int report_write_colltest_nosync(collbench_t *bench, colltest_params_t *params,
-		                         double exectime_local, int nruns)
+                                 double exectime_local, int nruns)
 {
     double exectime;
     const char *fmt = NULL;
@@ -488,7 +488,7 @@ int report_write_colltest_nosync(collbench_t *bench, colltest_params_t *params,
     /* Gather maximum time on all processes */
     MPI_Reduce(&exectime_local, &exectime, 1, MPI_DOUBLE, MPI_MAX,
                mpiperf_master_rank, params->comm);
-	exectime *= timescale;
+    exectime *= timescale;
 
     if (IS_MASTER_RANK) {
         printf(fmt, params->nprocs, params->count, nruns, exectime);
@@ -518,41 +518,41 @@ int report_write_collbench_procstat_header(collbench_t *bench)
     fprintf(mpiperf_repstream, "#\n");
 
     if (mpiperf_synctype == SYNC_TIME) {
-	    fprintf(mpiperf_repstream, "# Value of Mean in process i is computed as\n");
-	    fprintf(mpiperf_repstream, "# mean_of_runs(t[i][1], ..., t[i][CRuns])),\n");
-	    fprintf(mpiperf_repstream, "# where t[i][j] is a time of process i at measure j = 1, 2, ..., CRuns\n");
-		fprintf(mpiperf_repstream, "#\n");
-	    fprintf(mpiperf_repstream, "# ------------------------------------------------------------------\n");
-	    fprintf(mpiperf_repstream, "# Benchmark: %s \n", bench->name);
-	    fprintf(mpiperf_repstream, "# Confidence level (CL): %d%%\n", mpiperf_confidence_level);
-	    fprintf(mpiperf_repstream, "# ------------------------------------------------------------------\n");
+        fprintf(mpiperf_repstream, "# Value of Mean in process i is computed as\n");
+        fprintf(mpiperf_repstream, "# mean_of_runs(t[i][1], ..., t[i][CRuns])),\n");
+        fprintf(mpiperf_repstream, "# where t[i][j] is a time of process i at measure j = 1, 2, ..., CRuns\n");
+        fprintf(mpiperf_repstream, "#\n");
+        fprintf(mpiperf_repstream, "# ------------------------------------------------------------------\n");
+        fprintf(mpiperf_repstream, "# Benchmark: %s \n", bench->name);
+        fprintf(mpiperf_repstream, "# Confidence level (CL): %d%%\n", mpiperf_confidence_level);
+        fprintf(mpiperf_repstream, "# ------------------------------------------------------------------\n");
 
-		if (mpiperf_timescale == TIMESCALE_SEC) {
-		  	fprintf(mpiperf_repstream, "# [Procs] [Count]     [Rank]  [CRuns] [Mean]       [RSE]      [StdErr]     [Min]        [Max]       [Err]        [CI LB]      [CI UB]      [RelErr]\n");
-    	} else {
-    		/* usec */
-        	fprintf(mpiperf_repstream, "# [Procs] [Count]     [Rank]  [CRuns] [Mean]         [RSE]      [StdErr]       [Min]          [Max]         [Err]          [CI LB]        [CI UB]        [RelErr]\n");
-    	}
+        if (mpiperf_timescale == TIMESCALE_SEC) {
+            fprintf(mpiperf_repstream, "# [Procs] [Count]     [Rank]  [CRuns] [Mean]       [RSE]      [StdErr]     [Min]        [Max]       [Err]        [CI LB]      [CI UB]      [RelErr]\n");
+        } else {
+            /* usec */
+            fprintf(mpiperf_repstream, "# [Procs] [Count]     [Rank]  [CRuns] [Mean]         [RSE]      [StdErr]       [Min]          [Max]         [Err]          [CI LB]        [CI UB]        [RelErr]\n");
+        }
     } else {
-    	/* NOSYNC */
-	    fprintf(mpiperf_repstream, "# ------------------------------------------------------------------\n");
-	    fprintf(mpiperf_repstream, "# Benchmark: %s \n", bench->name);
-	    fprintf(mpiperf_repstream, "# Pipelined measurements\n");
-	    fprintf(mpiperf_repstream, "# ------------------------------------------------------------------\n");
-	    if (mpiperf_timescale == TIMESCALE_SEC) {
-		  	fprintf(mpiperf_repstream, "# [Procs] [Count]     [Rank]  [TRuns] [Mean]\n");
-    	} else {
-    		/* usec */
-		  	fprintf(mpiperf_repstream, "# [Procs] [Count]     [Rank]  [TRuns] [Mean]\n");
-    	}
+        /* NOSYNC */
+        fprintf(mpiperf_repstream, "# ------------------------------------------------------------------\n");
+        fprintf(mpiperf_repstream, "# Benchmark: %s \n", bench->name);
+        fprintf(mpiperf_repstream, "# Pipelined measurements\n");
+        fprintf(mpiperf_repstream, "# ------------------------------------------------------------------\n");
+        if (mpiperf_timescale == TIMESCALE_SEC) {
+            fprintf(mpiperf_repstream, "# [Procs] [Count]     [Rank]  [TRuns] [Mean]\n");
+        } else {
+            /* usec */
+            fprintf(mpiperf_repstream, "# [Procs] [Count]     [Rank]  [TRuns] [Mean]\n");
+        }
     }
     fprintf(mpiperf_repstream, "#\n");
     return MPIPERF_SUCCESS;
 }
 
 int report_write_collbench_procstat_synctime(collbench_t *bench,
-		                                     colltest_params_t *params,
-		                                     stat_sample_t *procstat)
+                                             colltest_params_t *params,
+                                             stat_sample_t *procstat)
 {
     enum { NSTAT_PARAMS = 9 };
     double statparams[NSTAT_PARAMS], *allstat = NULL;
@@ -584,25 +584,25 @@ int report_write_collbench_procstat_synctime(collbench_t *bench,
     statparams[4] = stat_sample_max(procstat) * timescale;
     statparams[5] = (double)stat_sample_size(procstat);
     statparams[6] = lb * timescale;
-	statparams[7] = ub * timescale;
+    statparams[7] = ub * timescale;
     statparams[8] = err * timescale;
 
     /* Gather statistics: T_mem  = O(n) */
     MPI_Gather(statparams, NSTAT_PARAMS, MPI_DOUBLE, allstat, NSTAT_PARAMS,
-    		   MPI_DOUBLE, mpiperf_master_rank, params->comm);
+               MPI_DOUBLE, mpiperf_master_rank, params->comm);
 
     if (IS_MASTER_RANK) {
-	    for (i = 0; i < params->nprocs; i++) {
-        	if ((int)allstat[i * NSTAT_PARAMS + 5] > 0) {
-            	/* Sample is not empty: samplesize > 0 */
+        for (i = 0; i < params->nprocs; i++) {
+            if ((int)allstat[i * NSTAT_PARAMS + 5] > 0) {
+                /* Sample is not empty: samplesize > 0 */
                 errrel = 0.0;
                 if (allstat[i * NSTAT_PARAMS + 8] > 0.0) {
-                	/* err > 0 */
+                    /* err > 0 */
                     errrel = allstat[i * NSTAT_PARAMS + 8] /
                              allstat[i * NSTAT_PARAMS + 0];
                 }
                 fprintf(mpiperf_repstream, fmt, params->nprocs, params->count, i,
-					    (int)allstat[i * NSTAT_PARAMS + 5], /* Runs */
+                        (int)allstat[i * NSTAT_PARAMS + 5], /* Runs */
                         allstat[i * NSTAT_PARAMS + 0],      /* Mean */
                         allstat[i * NSTAT_PARAMS + 2],      /* RSE */
                         allstat[i * NSTAT_PARAMS + 1],      /* StdErr */
@@ -613,9 +613,9 @@ int report_write_collbench_procstat_synctime(collbench_t *bench,
                         allstat[i * NSTAT_PARAMS + 7],      /* CI UB */
                         errrel                              /* Err / Mean */
                        );
-			} else {
-            	/* Empty sample */
-				fprintf(mpiperf_repstream, fmt, params->nprocs, params->count, i,
+            } else {
+                /* Empty sample */
+                fprintf(mpiperf_repstream, fmt, params->nprocs, params->count, i,
                         0,    /* Runs */
                         0.0,  /* Mean */
                         0.0,  /* RSE */
@@ -628,12 +628,12 @@ int report_write_collbench_procstat_synctime(collbench_t *bench,
                         0.0   /* Err / Mean */
                        );
             }
-		} /* for nprocs */
+        } /* for nprocs */
 
-	    /* Other processes did't participate in test */
-	    /*
-	    for (i = params->nprocs; i < mpiperf_commsize; i++) {
-			fprintf(mpiperf_repstream, fmt, params->nprocs, params->count, i,
+        /* Other processes did't participate in test */
+        /*
+        for (i = params->nprocs; i < mpiperf_commsize; i++) {
+            fprintf(mpiperf_repstream, fmt, params->nprocs, params->count, i,
                     0,
                     0.0,
                     0.0,
@@ -645,12 +645,12 @@ int report_write_collbench_procstat_synctime(collbench_t *bench,
                     0.0,
                     0.0
                    );
-	    }
-	    */
-		/*
-		fprintf(mpiperf_repstream, "\n");
-		*/
-	}
+        }
+        */
+        /*
+        fprintf(mpiperf_repstream, "\n");
+        */
+    }
 
     if (IS_MASTER_RANK) {
         free(allstat);
@@ -659,8 +659,8 @@ int report_write_collbench_procstat_synctime(collbench_t *bench,
 }
 
 int report_write_collbench_procstat_nosync(collbench_t *bench,
-		                                   colltest_params_t *params,
-		                                   stat_sample_t *procstat)
+                                           colltest_params_t *params,
+                                           stat_sample_t *procstat)
 {
     double exectime, *allstat = NULL;
     const char *fmt = NULL;
@@ -682,12 +682,12 @@ int report_write_collbench_procstat_nosync(collbench_t *bench,
 
     exectime = stat_sample_mean(procstat) * timescale;
     MPI_Gather(&exectime, 1, MPI_DOUBLE, allstat, 1, MPI_DOUBLE,
-      		   mpiperf_master_rank, params->comm);
+               mpiperf_master_rank, params->comm);
 
     if (IS_MASTER_RANK) {
-	    for (i = 0; i < params->nprocs; i++) {
-		    fprintf(mpiperf_repstream, fmt, params->nprocs, params->count, i,
-		    		mpiperf_nruns_max, allstat[i]);
+        for (i = 0; i < params->nprocs; i++) {
+            fprintf(mpiperf_repstream, fmt, params->nprocs, params->count, i,
+                    mpiperf_nruns_max, allstat[i]);
         }
     }
 

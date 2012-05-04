@@ -94,7 +94,7 @@ stat_sample_t *stat_sample_create()
 void stat_sample_free(stat_sample_t *sample)
 {
     if (sample)
-		free(sample);
+        free(sample);
 }
 
 /* stat_sample_add: */

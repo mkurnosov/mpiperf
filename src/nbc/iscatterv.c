@@ -26,14 +26,14 @@ int bench_iscatterv_init(nbctest_params_t *params)
 {
     int rank, i;
 
-	sbufpool = NULL;
-	sbufsize = 0;
+    sbufpool = NULL;
+    sbufsize = 0;
     sendcounts = NULL;
-	displs = NULL;
+    displs = NULL;
 
     MPI_Comm_rank(params->comm, &rank);
     if (rank == root) {
-    	sendcounts = malloc(sizeof(*sendcounts) * params->nprocs);
+        sendcounts = malloc(sizeof(*sendcounts) * params->nprocs);
         displs = malloc(sizeof(*displs) * params->nprocs);
         if (sendcounts == NULL || displs == NULL) {
             goto errhandler;
@@ -90,7 +90,7 @@ int bench_iscatterv_printinfo()
 }
 
 int measure_iscatterv_blocking(nbctest_params_t *params,
-		                       nbctest_result_t *result)
+                               nbctest_result_t *result)
 {
 #if MPICH2_NUMVERSION >= 10500002
     double starttime, endtime;
@@ -109,15 +109,15 @@ int measure_iscatterv_blocking(nbctest_params_t *params,
     endtime = timeslot_stopsync();
 
     if ((rc == MPI_SUCCESS) && (starttime > 0.0) && (endtime > 0.0)) {
-    	result->totaltime = endtime - starttime;
-		return MEASURE_SUCCESS;
+        result->totaltime = endtime - starttime;
+        return MEASURE_SUCCESS;
     }
 #endif
     return MEASURE_FAILURE;
 }
 
 int measure_iscatterv_overlap(nbctest_params_t *params,
-		                      nbctest_result_t *result)
+                              nbctest_result_t *result)
 
 {
 #if MPICH2_NUMVERSION >= 10500002
@@ -138,8 +138,8 @@ int measure_iscatterv_overlap(nbctest_params_t *params,
     endtime = timeslot_stopsync();
 
     if ((rc == MPI_SUCCESS) && (starttime > 0.0) && (endtime > 0.0)) {
-    	result->totaltime = endtime - starttime;
-		return MEASURE_SUCCESS;
+        result->totaltime = endtime - starttime;
+        return MEASURE_SUCCESS;
     }
     return MEASURE_FAILURE;
 #endif

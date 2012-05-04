@@ -23,8 +23,8 @@ enum ReturnCode {
 };
 
 enum ParamStepType {
-	STEP_TYPE_INC = 0,
-	STEP_TYPE_MUL = 1
+    STEP_TYPE_INC = 0,
+    STEP_TYPE_MUL = 1
 };
 
 enum ExitConditionType {
@@ -43,10 +43,10 @@ enum SyncTimeType {
 };
 
 enum MeasureReturnCodes {
-	MEASURE_SUCCESS = 0,
-	MEASURE_FAILURE = 1,
-	MEASURE_STARTED_LATE = 3,
-	MEASURE_TIME_TOOLONG = 4
+    MEASURE_SUCCESS = 0,
+    MEASURE_FAILURE = 1,
+    MEASURE_STARTED_LATE = 3,
+    MEASURE_TIME_TOOLONG = 4
 };
 
 enum StageConsts {
@@ -56,8 +56,8 @@ enum StageConsts {
 };
 
 enum NBCBenchMode {
-	NBCBENCH_BLOCKING = 0,
-	NBCBENCH_OVERLAP = 1
+    NBCBENCH_BLOCKING = 0,
+    NBCBENCH_OVERLAP = 1
 };
 
 enum ReportConsts {

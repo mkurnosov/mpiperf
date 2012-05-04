@@ -22,9 +22,9 @@ static int rbufsize;
 /* bench_reduce_scatter_init: */
 int bench_reduce_scatter_init(colltest_params_t *params)
 {
-	int i, rank;
+    int i, rank;
 
-	recvcounts = malloc(sizeof(*recvcounts) * params->nprocs);
+    recvcounts = malloc(sizeof(*recvcounts) * params->nprocs);
     if (recvcounts == NULL) {
         return MPIPERF_FAILURE;
     }
@@ -84,7 +84,7 @@ int measure_reduce_scatter_sync(colltest_params_t *params, double *time)
 
     if ((rc == MPI_SUCCESS) && (starttime > 0.0) && (endtime > 0.0)) {
         *time = endtime - starttime;
-    	return MEASURE_SUCCESS;
+        return MEASURE_SUCCESS;
     } else if (starttime < 0.0) {
         return MEASURE_STARTED_LATE;
     } else if (endtime < 0.0) {

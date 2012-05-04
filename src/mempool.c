@@ -18,11 +18,11 @@ enum {
 };
 
 struct mempool {
-    char *pool;				/* Base pointer to mem. pool */
-    char *pool_aligned;		/* Aligned pointer to mem. pool */
-    char *end;				/* End of mem. pool */
-    char *ptr;				/* Current free block */
-    size_t size;			/* Pool size */
+    char *pool;             /* Base pointer to mem. pool */
+    char *pool_aligned;     /* Aligned pointer to mem. pool */
+    char *end;              /* End of mem. pool */
+    char *ptr;              /* Current free block */
+    size_t size;            /* Pool size */
     int cachedefeat;
 };
 
@@ -40,12 +40,12 @@ mempool_t *mempool_create(size_t size, int cachedefeat)
     }
 
     if (size == 0) {
-		/*
-		 * If the size of the space requested by malloc is zero, the behavior
-		 * is implementation defined.
-		 * We increase size to 1 byte.
-		 */
-    	size = 1;
+        /*
+         * If the size of the space requested by malloc is zero, the behavior
+         * is implementation defined.
+         * We increase size to 1 byte.
+         */
+        size = 1;
     }
 
     if (cachedefeat) {
@@ -64,7 +64,7 @@ mempool_t *mempool_create(size_t size, int cachedefeat)
         free(p);
         return NULL;
     }
-   	p->pool_aligned = (char *)alignptr(p->pool, mempool_alignment);
+    p->pool_aligned = (char *)alignptr(p->pool, mempool_alignment);
     p->ptr = p->pool_aligned;
     p->end = p->pool + p->size;
     p->cachedefeat = cachedefeat;
@@ -89,20 +89,20 @@ void *mempool_alloc(mempool_t *mempool, size_t size)
         return NULL;
 
     if (size == 0)
-    	return 0;
+        return 0;
 
-	if (mempool->cachedefeat) {
-	    /* Defeat CPU cache */
-	    char *alignedptr = alignptr(mempool->ptr, mempool_alignment);
+    if (mempool->cachedefeat) {
+        /* Defeat CPU cache */
+        char *alignedptr = alignptr(mempool->ptr, mempool_alignment);
         if (alignedptr + size < mempool->end) {
             mempool->ptr = alignedptr + size + MEMPOOL_CACHELINE_SIZE;
             return alignedptr;
         }
         mempool->ptr = mempool->pool_aligned + size + MEMPOOL_CACHELINE_SIZE;
-	    return (mempool->pool_aligned + size < mempool->end) ?
-	           mempool->pool_aligned : NULL;
-	}
-	return mempool->pool;
+        return (mempool->pool_aligned + size < mempool->end) ?
+               mempool->pool_aligned : NULL;
+    }
+    return mempool->pool;
 }
 
 /* alignptr: Aligns pointer on given boundary. */

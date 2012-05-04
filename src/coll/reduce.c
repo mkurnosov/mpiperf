@@ -33,16 +33,16 @@ int bench_reduce_init(colltest_params_t *params)
     sbufsize = params->count * sizeof(double);
 
     MPI_Comm_rank(params->comm, &rank);
-	if (rank == root) {
-	    rbufpool = mempool_create(params->count * sizeof(double),
-	    		                  mpiperf_isflushcache);
-    	if (rbufpool == NULL) {
-        	mempool_free(sbufpool);
-	        return MPIPERF_FAILURE;
-    	}
-	    rbufsize = params->count * sizeof(double);
-	}
-	return MPIPERF_SUCCESS;
+    if (rank == root) {
+        rbufpool = mempool_create(params->count * sizeof(double),
+                                  mpiperf_isflushcache);
+        if (rbufpool == NULL) {
+            mempool_free(sbufpool);
+            return MPIPERF_FAILURE;
+        }
+        rbufsize = params->count * sizeof(double);
+    }
+    return MPIPERF_SUCCESS;
 }
 
 /* bench_reduce_free: */
@@ -76,7 +76,7 @@ int measure_reduce_sync(colltest_params_t *params, double *time)
 
     if ((rc == MPI_SUCCESS) && (starttime > 0.0) && (endtime > 0.0)) {
         *time = endtime - starttime;
-    	return MEASURE_SUCCESS;
+        return MEASURE_SUCCESS;
     } else if (starttime < 0.0) {
         return MEASURE_STARTED_LATE;
     } else if (endtime < 0.0) {
