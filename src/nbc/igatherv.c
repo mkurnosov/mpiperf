@@ -1,5 +1,5 @@
 /*
- * igathervv.c: Benchmark functions for Igathervv.
+ * igatherv.c: Benchmark functions for Igatherv.
  *
  * Copyright (C) 2012 Mikhail Kurnosov
  */

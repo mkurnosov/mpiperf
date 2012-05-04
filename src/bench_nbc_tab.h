@@ -20,6 +20,7 @@
 #include "nbc/igatherv.h"
 #include "nbc/ireduce_scatter_block.h"
 #include "nbc/ireduce_scatter.h"
+#include "nbc/ireduce.h"
 
 /*
 MPICH2 1.5b1 NBC routines:
@@ -36,7 +37,7 @@ MPICH2 1.5b1 NBC routines:
 +igatherv
 +ireduce_scatter_block
 +ireduce_scatter
-ireduce
++ ireduce
 iscan
 iscatter
 iscatterv
@@ -147,6 +148,14 @@ nbcbench_t nbcbenchtab[] = {
     (nbcbench_printinfo_ptr_t)bench_ireduce_scatter_printinfo,
     (nbcbench_collop_blocking_ptr_t)measure_ireduce_scatter_blocking,
     (nbcbench_collop_overlap_ptr_t)measure_ireduce_scatter_overlap,
+},
+{
+	"Ireduce",
+    (nbcbench_init_ptr_t)bench_ireduce_init,
+    (nbcbench_free_ptr_t)bench_ireduce_free,
+    (nbcbench_printinfo_ptr_t)bench_ireduce_printinfo,
+    (nbcbench_collop_blocking_ptr_t)measure_ireduce_blocking,
+    (nbcbench_collop_overlap_ptr_t)measure_ireduce_overlap,
 },
 #endif
 };

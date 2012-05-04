@@ -58,7 +58,7 @@ int bench_reduce_printinfo()
 {
     printf("* Reduce\n"
            "  proto: MPI_Reduce(sbuf, rbuf, count, MPI_DOUBLE, \n"
-           "                    MPI_SUM, 0, comm)\n");
+           "                    MPI_SUM, %d, comm)\n", root);
     return MPIPERF_SUCCESS;
 }
 
