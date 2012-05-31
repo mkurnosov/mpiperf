@@ -111,6 +111,6 @@ int measure_igather_overlap(nbctest_params_t *params,
         result->totaltime = endtime - starttime;
         return MEASURE_SUCCESS;
     }
-    return MEASURE_FAILURE;
 #endif
+    return MEASURE_FAILURE;
 }

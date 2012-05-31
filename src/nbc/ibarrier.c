@@ -77,6 +77,6 @@ int measure_ibarrier_overlap(nbctest_params_t *params, nbctest_result_t *result)
         result->totaltime = endtime - starttime;
         return MEASURE_SUCCESS;
     }
-    return MEASURE_FAILURE;
 #endif
+    return MEASURE_FAILURE;
 }

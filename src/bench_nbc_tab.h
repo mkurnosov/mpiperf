@@ -184,7 +184,8 @@ nbcbench_t nbcbenchtab[] = {
     (nbcbench_collop_blocking_ptr_t)measure_iscatterv_blocking,
     (nbcbench_collop_overlap_ptr_t)measure_iscatterv_overlap,
 }
-};
 #endif
+};
+
 #endif /* BENCH_NBC_TAB_H */
 
