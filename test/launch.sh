@@ -19,7 +19,7 @@
 #mpiexec -np 2 ./mpiperf -q -- list of benchmarks
 
 #mpiexec -np 2 ./mpiperf -m -l log -o out -x64 -X1024 iallreduce
-mpiexec -np 2 ./mpiperf -x64 -X1024 iallreduce
+#mpiexec -np 3 ./mpiperf -p3 -P3 -x100 -X100 -b -o report ireduce
 
 
 
