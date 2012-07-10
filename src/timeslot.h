@@ -1,7 +1,7 @@
 /*
  * timeslot.h: Timeslots module.
  *
- * Copyright (C) 2010 Mikhail Kurnosov
+ * Copyright (C) 2011 Mikhail Kurnosov
  */
 
 #ifndef TIMESLOT_H
@@ -11,19 +11,17 @@
 
 #include <mpi.h>
 
-#include "bench.h"
-
 /* timeslot_initialize: */
 int timeslot_initialize();
 
 /* timeslot_initialize_test: */
-int timeslot_initialize_test(bench_t *bench);
+int timeslot_initialize_test(MPI_Comm comm);
 
 /* timeslot_setlen: Set length of the timeslots in seconds. */
 void timeslot_set_length(double length);
 
 /* timeslot_set_starttime: Set start time. */
-double timeslot_set_starttime(bench_t *bench);
+double timeslot_set_starttime(MPI_Comm comm);
 
 /*
  * timeslot_startsync: Wait for the next timeslot and returns its start time

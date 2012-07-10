@@ -1,0 +1,18 @@
+This library demonstrates how to benchmark user's MPI functions. 
+
+1. Build user library.
+
+  make
+  
+2. Edit Makefile.inc in top level directory of MPIPerf and setup
+   USERLIB_FLAG variable. For example:
+   
+   USERLIB_FLAGS := -L $(topdir)/examples/usermpi -l usermpi
+   
+3. Clean and build MPIPerf.
+
+  make clean
+  make
+  
+   
+   

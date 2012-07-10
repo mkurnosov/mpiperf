@@ -1,0 +1,4 @@
+1. Add files (implementation of tests) to src/nbc directory. For example: ibarrier.c and ibarrier.h
+2. Add benchmark to the table in bench_nbc_tab.h
+3. Modify src/Makefile - add object file and dependencies for compiling.
+
