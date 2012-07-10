@@ -94,16 +94,16 @@ int bench_ialltoallv_printinfo()
 int measure_ialltoallv_blocking(nbctest_params_t *params,
                                 nbctest_result_t *result)
 {
-#if MPICH2_NUMVERSION >= 10500002
+#ifdef HAVE_NBC
     double starttime, endtime;
     int rc;
     static MPI_Request req;
 
     starttime = timeslot_startsync();
     result->inittime = hpctimer_wtime();
-    rc = MPIX_Ialltoallv(mempool_alloc(sbufpool, sbufsize), sendcounts, sdispls,
-                         MPI_BYTE, mempool_alloc(rbufpool, rbufsize), recvcounts,
-                         rdispls, MPI_BYTE, params->comm, &req);
+    rc = MPI_Ialltoallv(mempool_alloc(sbufpool, sbufsize), sendcounts, sdispls,
+                        MPI_BYTE, mempool_alloc(rbufpool, rbufsize), recvcounts,
+                        rdispls, MPI_BYTE, params->comm, &req);
     result->inittime = hpctimer_wtime() - result->inittime;
     result->waittime = hpctimer_wtime();
     rc = MPI_Wait(&req, MPI_STATUS_IGNORE);
@@ -122,16 +122,16 @@ int measure_ialltoallv_overlap(nbctest_params_t *params,
                                nbctest_result_t *result)
 
 {
-#if MPICH2_NUMVERSION >= 10500002
+#ifdef HAVE_NBC
     double starttime, endtime;
     int rc;
     static MPI_Request req;
 
     starttime = timeslot_startsync();
     result->inittime = hpctimer_wtime();
-    rc = MPIX_Ialltoallv(mempool_alloc(sbufpool, sbufsize), sendcounts, sdispls,
-                         MPI_BYTE, mempool_alloc(rbufpool, rbufsize), recvcounts,
-                         rdispls, MPI_BYTE, params->comm, &req);
+    rc = MPI_Ialltoallv(mempool_alloc(sbufpool, sbufsize), sendcounts, sdispls,
+                        MPI_BYTE, mempool_alloc(rbufpool, rbufsize), recvcounts,
+                        rdispls, MPI_BYTE, params->comm, &req);
     result->inittime = hpctimer_wtime() - result->inittime;
     nbcbench_simulate_computing(params, &req, result);
     result->waittime = hpctimer_wtime();

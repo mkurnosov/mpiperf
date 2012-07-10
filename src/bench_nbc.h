@@ -11,6 +11,30 @@
 
 #include "stat.h"
 
+#if MPICH2_NUMVERSION >= 10500002 || (OMPI_MAJOR_VERSION > 0 && OMPI_MINOR_VERSION > 6)
+#define HAVE_NBC
+#endif
+
+#if MPICH2_NUMVERSION >= 10500002
+#  define MPI_Iallgather MPIX_Iallgather
+#  define MPI_Iallgatherv MPIX_Iallgatherv
+#  define MPI_Iallreduce MPIX_Iallreduce
+#  define MPI_Ialltoall MPIX_Ialltoall
+#  define MPI_Ialltoallv MPIX_Ialltoallv
+#  define MPI_Ialltoallw MPIX_Ialltoallw
+#  define MPI_Ibarrier MPIX_Ibarrier
+#  define MPI_Ibcast MPIX_Ibcast
+#  define MPI_Iexscan MPIX_Iexscan
+#  define MPI_Igather MPIX_Igather
+#  define MPI_Igatherv MPIX_Igatherv
+#  define MPI_Ireduce_scatter_block MPIX_Ireduce_scatter_block
+#  define MPI_Ireduce_scatter MPIX_Ireduce_scatter
+#  define MPI_Ireduce MPIX_Ireduce
+#  define MPI_Iscan MPIX_Iscan
+#  define MPI_Iscatter MPIX_Iscatter
+#  define MPI_Iscatterv MPIX_Iscatterv
+#endif
+
 /* Test parameters */
 typedef struct {
     MPI_Comm comm;

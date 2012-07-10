@@ -92,16 +92,16 @@ int bench_iscatterv_printinfo()
 int measure_iscatterv_blocking(nbctest_params_t *params,
                                nbctest_result_t *result)
 {
-#if MPICH2_NUMVERSION >= 10500002
+#ifdef HAVE_NBC
     double starttime, endtime;
     int rc;
     static MPI_Request req;
 
     starttime = timeslot_startsync();
     result->inittime = hpctimer_wtime();
-    rc = MPIX_Iscatterv(mempool_alloc(sbufpool, sbufsize), sendcounts, displs,
-                        MPI_BYTE, mempool_alloc(rbufpool, rbufsize), params->count,
-                        MPI_BYTE, root, params->comm, &req);
+    rc = MPI_Iscatterv(mempool_alloc(sbufpool, sbufsize), sendcounts, displs,
+                       MPI_BYTE, mempool_alloc(rbufpool, rbufsize), params->count,
+                       MPI_BYTE, root, params->comm, &req);
     result->inittime = hpctimer_wtime() - result->inittime;
     result->waittime = hpctimer_wtime();
     rc = MPI_Wait(&req, MPI_STATUS_IGNORE);
@@ -120,16 +120,16 @@ int measure_iscatterv_overlap(nbctest_params_t *params,
                               nbctest_result_t *result)
 
 {
-#if MPICH2_NUMVERSION >= 10500002
-    double starttime, endtime;
+#ifdef HAVE_NBC
+	double starttime, endtime;
     int rc;
     static MPI_Request req;
 
     starttime = timeslot_startsync();
     result->inittime = hpctimer_wtime();
-    rc = MPIX_Iscatterv(mempool_alloc(sbufpool, sbufsize), sendcounts, displs,
-                        MPI_BYTE, mempool_alloc(rbufpool, rbufsize), params->count,
-                        MPI_BYTE, root, params->comm, &req);
+    rc = MPI_Iscatterv(mempool_alloc(sbufpool, sbufsize), sendcounts, displs,
+                       MPI_BYTE, mempool_alloc(rbufpool, rbufsize), params->count,
+                       MPI_BYTE, root, params->comm, &req);
     result->inittime = hpctimer_wtime() - result->inittime;
     nbcbench_simulate_computing(params, &req, result);
     result->waittime = hpctimer_wtime();

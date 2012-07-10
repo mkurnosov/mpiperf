@@ -46,8 +46,29 @@ MPICH2 1.5b1 NBC routines:
 +iscatterv
 */
 
+/*
+Open MPI 1.7 NBC routines:
+iallgather
+iallgatherv
+iallreduce
+ialltoall
+ialltoallv
+ialltoallw
+ibarrier
+ibcast
+iexscan
+igather
+igatherv
+ireduce
+ireduce_scatter_block
+ireduce_scatter
+iscan
+iscatter
+iscatterv
+*/
+
 nbcbench_t nbcbenchtab[] = {
-#if MPICH2_NUMVERSION >= 10500002
+#ifdef HAVE_NBC
 {
     "Iallgather",
     (nbcbench_init_ptr_t)bench_iallgather_init,
