@@ -248,7 +248,7 @@ static void print_usage(int argc, char **argv)
 /* parse_options: Parses command line options and sets global variables. */
 static int parse_options(int argc, char **argv)
 {
-    int opt, checktimer = 0;
+    int opt;
 
     while ( (opt = getopt(argc, argv, "p:P:x:X:g:G:s:S:e:E:r:R:l:z:w:t:o:c:badTjmqh")) != -1) {
         switch (opt) {
@@ -357,7 +357,8 @@ static int parse_options(int argc, char **argv)
             }
             exit_success();
         case 'j':
-            checktimer = 1;
+            mpiperf_checktimer();
+            exit_success();
             break;
         case 'm':
             mpiperf_logmaster_only = 1;
@@ -381,6 +382,14 @@ static int parse_options(int argc, char **argv)
             }
             exit_success();
         }
+    }
+
+    if (optind >= argc) {
+        if (IS_MASTER_RANK) {
+            print_usage(argc, argv);
+            print_error("Expected benchmark name");
+        }
+        return MPIPERF_FAILURE;
     }
 
     if (mpiperf_commsize < 2) {
@@ -424,19 +433,6 @@ static int parse_options(int argc, char **argv)
     if (mpiperf_count_max == 0 && mpiperf_count_step_type == STEP_TYPE_MUL) {
         mpiperf_count_step_type = STEP_TYPE_INC;
         mpiperf_count_step = 1;
-    }
-
-    if (checktimer) {
-        mpiperf_checktimer();
-        exit_success();
-    }
-
-    if (optind >= argc) {
-        if (IS_MASTER_RANK) {
-            print_usage(argc, argv);
-            print_error("Expected benchmark name");
-        }
-        return MPIPERF_FAILURE;
     }
 
     /* Lookup benchmark by name */

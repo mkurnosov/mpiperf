@@ -39,6 +39,4 @@ $(distdir):
 	cp -R src $@
 	cp -R test $@
 	cp -R AUTHORS COPYING Makefile Makefile.inc README INSTALL INSTALL.ru VERSION $@
-
-
     

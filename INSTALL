@@ -3,13 +3,13 @@ Building MPIPerf
 
 Unpack the tar file and go to the top level directory
 
-    tar zxvf mpiperf.tar.gz
-    cd mpiperf
+    $ tar zxvf mpiperf.tar.gz
+    $ cd mpiperf
 
 Before building specify your compiler and path to MPI library in Makefile.inc. 
 To compile MPIPerf, type
 
-    make 
+    $ make 
 
 If no error occurs, executable file src/mpiperf will be created.
 
@@ -19,11 +19,15 @@ Checking timers
 Before any measurements it is required to check timers in MPIPerf on target 
 computer system. To print list of supported timers run mpiperf with option -T
 
-    mpiexec -n 1 ./mpiperf -T
+    $ mpiexec -n 1 ./mpiperf -T
+    Supported timers:
+    MPI_Wtime
+    gettimeofday
+    tsc
 
 To check timer 'tsc' run mpiperf with option -g (default timer is MPI_Wtime)
 
-    mpiexec -n 1 ./mpiperf -g -t tsc
+    $ mpiexec -n 1 ./mpiperf -j -t tsc
 
 In the case of correct work of timer the message "PASSED" is printed.
 
