@@ -2,6 +2,13 @@ MPIPerf
 -------
 
 MPIPerf is a benchmark for MPI libraries.
+
+Version 0.0.3
+* Tests for MPI 3.0 non-blocking collectives are implemented.
+
+Version 0.0.2
+* Tests for MPI 2.2 collectives are implemented.
+
   
 For problem reports and suggestions on the implementation, 
 please contact:
