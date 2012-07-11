@@ -16,8 +16,8 @@ set format y "%.1f"
 set format x "%.0f"
 set xtics 8
 set mxtics 4
-plot "barrier.dat" using 1:5 title "Measured time" with lines ls 1, \
-     "barrier.dat" using 1:11 title "Confidence interval" with lines ls 2, \
-     "barrier.dat" using 1:12 notitle "CI UB" with lines ls 3
+plot "barrier.dat" using 1:6 title "Measured time" with lines ls 1, \
+     "barrier.dat" using 1:12 title "Confidence interval" with lines ls 2, \
+     "barrier.dat" using 1:13 notitle "CI UB" with lines ls 3
      
 

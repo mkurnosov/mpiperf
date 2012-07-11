@@ -13,8 +13,8 @@ set ylabel 'Time (us)'
 set xlabel 'Number of processes'
 set format y "%.1f"
 set format x "%.0f"
-set xtics 8
+set xtics 4
 set mxtics 4
-plot "barrier.dat" using 1:5 with lines ls 1, \
-     "barrier.dat" using 1:5:10 notitle with yerrorbars ls 2     
+plot "barrier.dat" using 1:6 with lines ls 1, \
+     "barrier.dat" using 1:6:11 notitle with yerrorbars ls 2     
 

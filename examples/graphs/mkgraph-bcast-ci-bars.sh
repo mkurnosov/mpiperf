@@ -15,24 +15,8 @@ set format y "%.1f"
 set format x "%.0f"
 
 set logscale x
-set multiplot
-set origin 0,0
-set size 1,1
-set xrange [4096:1024*1024]
 set xtics 4
 set mxtics 2
-plot "bcast.dat" using 1:5 notitle with lines ls 1, \
-     "bcast.dat" using 1:5:10 notitle with yerrorbars ls 2
-
-set origin 0.16,0.5
-set size 0.5,0.4
-set noxlabel 
-set noylabel 
-set nokey 
-set nogrid
-set xrange [1:4096]
-replot
-set nomultiplot
-
+plot "bcast.dat" using 2:6 notitle with lines ls 1, \
+     "bcast.dat" using 2:6:11 notitle with yerrorbars ls 2
      
-
