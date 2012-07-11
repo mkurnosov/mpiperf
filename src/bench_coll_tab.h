@@ -104,7 +104,7 @@ collbench_t collbenchtab[] = {
       (collbench_printinfo_ptr_t)bench_gatherv_printinfo,
       (collbench_op_ptr_t)measure_gatherv_sync
     },
-#ifdef MPICH2
+#if MPICH2_NUMVERSION >= 10401301 || (OMPI_MAJOR_VERSION > 0 && OMPI_MINOR_VERSION > 6)
     {
       "Reduce_scatter_block",
       (collbench_init_ptr_t)bench_reduce_scatter_block_init,
