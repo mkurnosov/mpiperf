@@ -2,8 +2,8 @@
 # User library makefile.
 #
 
-lib := libusermpi.a
-lib_objs := usermpi.o
+lib := libusertest.a
+lib_objs := usertest.o
 
 all: $(lib)
 
@@ -13,7 +13,7 @@ $(lib): $(lib_objs)
 %.o: %.c
 	mpicc -Wall -c $< -o $@
 
-usermpi.o: usermpi.c
+usertest.o: usertest.c
 
 clean:
 	@rm -rf $(lib) $(lib_objs)

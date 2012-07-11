@@ -1,11 +1,11 @@
 /*
- * usermpi.c:
+ * usertest.c: 
  */ 
 
 #include <mpi.h>
 
 /*
- * This flag indicates that mpiperf finished all preparations and started
+ * This flag indicates that MPIPerf finished all preparations and started
  * measurements. So we can call our version of function insted of native MPI
  * routine.
  */
@@ -20,7 +20,7 @@ int MPI_Bcast_user(void *buf, int count, MPI_Datatype datatype, int root,
 	PMPI_Comm_size(comm, &commsize);
 	PMPI_Comm_rank(comm, &rank);
 
-	/* Simple Linear algorithm for broadcast */
+	/* Simple linear algorithm for broadcast */
 	if (rank == root) {
 		for (i = 0; i < commsize; i++) {
 			if (i != root)
