@@ -25,7 +25,7 @@ computer system. To print list of supported timers run mpiperf with option -T
     gettimeofday
     tsc
 
-To check timer 'tsc' run mpiperf with option -g (default timer is MPI_Wtime)
+To check timer 'tsc' run mpiperf with option -j (default timer is MPI_Wtime)
 
     $ mpiexec -n 1 ./mpiperf -j -t tsc
 
