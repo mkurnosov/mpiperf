@@ -1,0 +1,22 @@
+If you need to benchmark own version of MPI routine (for example, 
+new collective algorithm) you can do it via PMPI interface.
+
+1. Create library with new MPI routine (see usertest.c).
+
+2. Compile library, type
+   
+   $ make
+    
+3. Edit Makefile.inc in top level directory of MPIPerf and setup
+   USERLIB_FLAG variable. For example:
+   
+   USERLIB_FLAGS := -L $(topdir)/doc/usertest -l usertest
+   
+4. Clean and build MPIPerf.
+
+    $ make clean
+    $ make
+    
+  
+   
+ 

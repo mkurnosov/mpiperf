@@ -213,10 +213,10 @@ static void print_usage(int argc, char **argv)
     fprintf(stderr, "\nOptions:\n");
     fprintf(stderr, "  -p <value>       Min number of processes (default: commsize)\n");
     fprintf(stderr, "  -P <value>       Max number of processes (defaul: commsize)\n");
-    fprintf(stderr, "  -x <value>       Min data size (count elems) (defaul: 1)\n");
-    fprintf(stderr, "  -X <value>       Max data size (count elems) (defaul: 100)\n");
     fprintf(stderr, "  -g <step>        Number of processes is changed in an arithmetic progression with <step>\n");
     fprintf(stderr, "  -G <step>        Number of processes is changed in a geometric progression with <step> (defaul: 2)\n");
+    fprintf(stderr, "  -x <value>       Min data size (count elems) (defaul: 1; KiB, MiB and GiB suffixes are supported)\n");
+    fprintf(stderr, "  -X <value>       Max data size (count elems) (defaul: 100; KiB, MiB and GiB suffixes are supported)\n");
     fprintf(stderr, "  -s <step>        Data size is changed in an arithmetic progression with <step>\n");
     fprintf(stderr, "  -S <step>        Data size is changed in a geometric progression with <step> (defaul: 2)\n");
     fprintf(stderr, "  -e <rse%%>        Terminate each test when relative standard error is less then <rse> (default: %d%%)\n",
